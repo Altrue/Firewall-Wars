@@ -9,6 +9,9 @@ public class Ennemi : MonoBehaviour {
     public int speed;
     public int rotateSpeed;
     public Text coordinatesCountText;
+    public Text coordinatesTargetText;
+    public Text coordinatesPosText;
+    public GameObject Parent;
 
     private int pathPosition;
     private int coordinatesCount;
@@ -22,7 +25,8 @@ public class Ennemi : MonoBehaviour {
         coordinates = hackers.coordinates;
         coordinatesCount = coordinates.Count;
         coordinatesCountText.text = "CoordinatesCount : " + coordinatesCount.ToString();
-        transform.position = (Vector3) coordinates[pathPosition]; // Spawn à la première coordonnée
+        transform.localPosition = (Vector3) coordinates[pathPosition]; // Spawn à la première coordonnée
+        transform.SetParent(Parent.transform);
         pathPosition++;
 
         setNextTargetPosition();
@@ -30,9 +34,11 @@ public class Ennemi : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        coordinatesTargetText.text = "Target: " + nextTargetPosition.x.ToString() + ", " + nextTargetPosition.y.ToString() + ", " + nextTargetPosition.z.ToString();
+        coordinatesPosText.text = "POS: " + transform.localPosition.x.ToString() + ", " + transform.localPosition.y.ToString() + ", " + transform.localPosition.z.ToString();
         if (!hasWon) {
-            transform.position = movePosition();
-            if (transform.position.x == nextTargetPosition.x && transform.position.z == nextTargetPosition.z)
+            transform.localPosition = movePosition();
+            if (transform.localPosition.x == nextTargetPosition.x && transform.localPosition.z == nextTargetPosition.z)
             {
                 setNextTargetPosition();
             }
@@ -50,13 +56,13 @@ public class Ennemi : MonoBehaviour {
         float y;
 
         // X Coord
-        if (transform.position.x < nextTargetPosition.x)
+        if (transform.localPosition.x < nextTargetPosition.x)
         {
-            x = System.Math.Min(transform.position.x + speed * Time.deltaTime, nextTargetPosition.x);
+            x = System.Math.Min(transform.localPosition.x + speed * Time.deltaTime, nextTargetPosition.x);
         }
-        else if (transform.position.x > nextTargetPosition.x)
+        else if (transform.localPosition.x > nextTargetPosition.x)
         {
-            x = System.Math.Max(transform.position.x - speed * Time.deltaTime, nextTargetPosition.x);
+            x = System.Math.Max(transform.localPosition.x - speed * Time.deltaTime, nextTargetPosition.x);
         }
         else
         {
@@ -64,13 +70,13 @@ public class Ennemi : MonoBehaviour {
         }
 
         // Z Coord
-        if (transform.position.z < nextTargetPosition.z)
+        if (transform.localPosition.z < nextTargetPosition.z)
         {
-            z = System.Math.Min(transform.position.z + speed * Time.deltaTime, nextTargetPosition.z);
+            z = System.Math.Min(transform.localPosition.z + speed * Time.deltaTime, nextTargetPosition.z);
         }
-        else if (transform.position.z > nextTargetPosition.z)
+        else if (transform.localPosition.z > nextTargetPosition.z)
         {
-            z = System.Math.Max(transform.position.z - speed * Time.deltaTime, nextTargetPosition.z);
+            z = System.Math.Max(transform.localPosition.z - speed * Time.deltaTime, nextTargetPosition.z);
         }
         else
         {
@@ -81,7 +87,7 @@ public class Ennemi : MonoBehaviour {
         float time = Time.fixedTime * 3f;
         y = ((float)System.Math.Sin(time) + 1f) * 0.1f ;
 
-        setOrientation(x - transform.position.x, z - transform.position.z);
+        setOrientation(x - transform.localPosition.x, z - transform.localPosition.z);
 
         return new Vector3(x, y, z);
     }
