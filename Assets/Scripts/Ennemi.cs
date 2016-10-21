@@ -5,7 +5,7 @@ using System.Collections;
 public class Ennemi : MonoBehaviour {
 
     private ArrayList coordinates = new ArrayList();
-    public Hackers hackers;
+    public HackersManager hackers;
     public int speed;
     public int rotateSpeed;
     public Text coordinatesCountText;
@@ -13,13 +13,15 @@ public class Ennemi : MonoBehaviour {
     public Text coordinatesPosText;
     public GameObject Parent;
 
+    HackersManager hackersManager;
+
     private int pathPosition;
     private int coordinatesCount;
     private Vector3 nextTargetPosition;
     private bool hasWon;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         hasWon = false;
         pathPosition = 0;
         coordinates = hackers.coordinates;
@@ -30,6 +32,9 @@ public class Ennemi : MonoBehaviour {
         pathPosition++;
 
         setNextTargetPosition();
+
+        hackersManager = FindObjectOfType<HackersManager>();
+        hackersManager.addEnnemi(this);
     }
 	
 	// Update is called once per frame
@@ -42,10 +47,6 @@ public class Ennemi : MonoBehaviour {
             {
                 setNextTargetPosition();
             }
-        }
-        else
-        {
-            Destroy(this);
         }
     }
 
