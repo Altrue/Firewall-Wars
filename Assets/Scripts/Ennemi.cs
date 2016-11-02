@@ -11,20 +11,24 @@ public class Ennemi : MonoBehaviour {
     public Text coordinatesTargetText;
     public Text coordinatesPosText;
     public Text hpText;
+    public Rigidbody rigidbody;
+    public CapsuleCollider capsuleCollider;
 
     private HackersManager hackersManager;
     private int pathPosition;
     private int coordinatesCount;
     private Vector3 nextTargetPosition;
-    private bool hasWon;
+    public bool isDead;
     private float hp;
+    private float deathTime = 0.0f;
+    private float despawnTime = 2f;
 
     // Use this for initialization
     void Start () {
         hackersManager = FindObjectOfType<HackersManager>();
         transform.SetParent(hackersManager.gameObject.transform, false); // Luc, je suis ton père
 
-        hasWon = false;
+        isDead = false;
         pathPosition = 0;
         hp = 100f;
         //hpText.text = "HP : " + hp.ToString("N2") + "/100";
@@ -45,11 +49,18 @@ public class Ennemi : MonoBehaviour {
         //coordinatesPosText.text = "POS: " + transform.localPosition.x.ToString() + ", " + transform.localPosition.y.ToString() + ", " + transform.localPosition.z.ToString();
         //hpText.text = "HP : " + hp.ToString("N2") + "/100";
 
-        if (!hasWon) {
+        if (!isDead) {
             transform.localPosition = movePosition();
             if (transform.localPosition.x == nextTargetPosition.x && transform.localPosition.z == nextTargetPosition.z)
             {
                 setNextTargetPosition();
+            }
+        }
+        else
+        {
+            if (Time.time > despawnTime)
+            {
+                Destroy(this.gameObject);
             }
         }
     }
@@ -109,7 +120,7 @@ public class Ennemi : MonoBehaviour {
     {
         if (pathPosition >= coordinatesCount)
         {
-            hasWon = true;
+            isDead = true;
         }
         else
         {
@@ -121,8 +132,20 @@ public class Ennemi : MonoBehaviour {
     private void die()
     {
         hackersManager.removeEnnemi(this);
+        isDead = true;
         //hpText.text = "HP : 0/100";
-        Destroy(this.gameObject);
+
+        //rigidbody.useGravity = true;
+        //capsuleCollider.enabled = true;
+        deathTime = Time.time;
+        despawnTime += deathTime;
+
+        Vector3 movement = new Vector3(0.0f, 100f, 100.0f);
+        Vector3 position = new Vector3(0.1f, 0.0f, 0.0f);
+        rigidbody.AddForceAtPosition(position.normalized, movement);
+
+        Vector3 movementUp = new Vector3(0.0f, 20f, 0.0f);
+        rigidbody.AddForce(movementUp);
     }
 
     public void takeDamage(float _dmg)

@@ -46,7 +46,7 @@ public class Tourelle : MonoBehaviour {
         {
             distanceClosest = Vector3.Distance(closest.transform.position, transform.position);
             // We fire on the current closest target
-            if (distanceClosest < attackRange)
+            if (distanceClosest < attackRange && !closest.isDead)
             {
                 line.enabled = true;
                 tourellesManager.hackersManager.damageEnnemi(closest, dps * Time.deltaTime);
