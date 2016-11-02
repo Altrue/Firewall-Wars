@@ -5,42 +5,46 @@ using System.Collections;
 public class Ennemi : MonoBehaviour {
 
     private ArrayList coordinates = new ArrayList();
-    public HackersManager hackers;
     public int speed;
     public int rotateSpeed;
     public Text coordinatesCountText;
     public Text coordinatesTargetText;
     public Text coordinatesPosText;
-    public GameObject Parent;
+    public Text hpText;
 
-    HackersManager hackersManager;
-
+    private HackersManager hackersManager;
     private int pathPosition;
     private int coordinatesCount;
     private Vector3 nextTargetPosition;
     private bool hasWon;
+    private float hp;
 
     // Use this for initialization
     void Start () {
+        hackersManager = FindObjectOfType<HackersManager>();
+        transform.SetParent(hackersManager.gameObject.transform, false); // Luc, je suis ton père
+
         hasWon = false;
         pathPosition = 0;
-        coordinates = hackers.coordinates;
+        hp = 100f;
+        //hpText.text = "HP : " + hp.ToString("N2") + "/100";
+        coordinates = hackersManager.coordinates;
         coordinatesCount = coordinates.Count;
-        coordinatesCountText.text = "CoordinatesCount : " + coordinatesCount.ToString();
+        //coordinatesCountText.text = "CoordinatesCount : " + coordinatesCount.ToString();
         transform.localPosition = (Vector3) coordinates[pathPosition]; // Spawn à la première coordonnée
-        transform.SetParent(Parent.transform);
         pathPosition++;
 
         setNextTargetPosition();
 
-        hackersManager = FindObjectOfType<HackersManager>();
         hackersManager.addEnnemi(this);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        coordinatesTargetText.text = "Target: " + nextTargetPosition.x.ToString() + ", " + nextTargetPosition.y.ToString() + ", " + nextTargetPosition.z.ToString();
-        coordinatesPosText.text = "POS: " + transform.localPosition.x.ToString() + ", " + transform.localPosition.y.ToString() + ", " + transform.localPosition.z.ToString();
+        //coordinatesTargetText.text = "Target: " + nextTargetPosition.x.ToString() + ", " + nextTargetPosition.y.ToString() + ", " + nextTargetPosition.z.ToString();
+        //coordinatesPosText.text = "POS: " + transform.localPosition.x.ToString() + ", " + transform.localPosition.y.ToString() + ", " + transform.localPosition.z.ToString();
+        //hpText.text = "HP : " + hp.ToString("N2") + "/100";
+
         if (!hasWon) {
             transform.localPosition = movePosition();
             if (transform.localPosition.x == nextTargetPosition.x && transform.localPosition.z == nextTargetPosition.z)
@@ -86,7 +90,7 @@ public class Ennemi : MonoBehaviour {
 
         // Y Coord
         float time = Time.fixedTime * 3f;
-        y = ((float)System.Math.Sin(time) + 1f) * 0.1f ;
+        y = ((float)System.Math.Sin(time) + 1f) * 0.1f + 0.5f;
 
         setOrientation(x - transform.localPosition.x, z - transform.localPosition.z);
 
@@ -111,6 +115,22 @@ public class Ennemi : MonoBehaviour {
         {
             nextTargetPosition = (Vector3)coordinates[pathPosition];
             pathPosition++;
+        }
+    }
+
+    private void die()
+    {
+        hackersManager.removeEnnemi(this);
+        //hpText.text = "HP : 0/100";
+        Destroy(this.gameObject);
+    }
+
+    public void takeDamage(float _dmg)
+    {
+        hp = hp - _dmg;
+        if (hp < 0)
+        {
+            die();
         }
     }
 }
