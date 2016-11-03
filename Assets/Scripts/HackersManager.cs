@@ -9,7 +9,7 @@ public class HackersManager : MonoBehaviour {
     public GameObject shrinker;
 
     private float nextActionTime = 0.0f;
-    private float period = 2f;
+    private float period = 1.5f;
 
     public ArrayList coordinates = new ArrayList()
     {

@@ -13,6 +13,7 @@ public class Ennemi : MonoBehaviour {
     public Text hpText;
     public Rigidbody rigidbody;
     public CapsuleCollider capsuleCollider;
+    public GameObject HpBar;
 
     private HackersManager hackersManager;
     private int pathPosition;
@@ -20,6 +21,7 @@ public class Ennemi : MonoBehaviour {
     private Vector3 nextTargetPosition;
     public bool isDead;
     private float hp;
+    private float maxHp = 100f;
     private float deathTime = 0.0f;
     private float despawnTime = 2f;
 
@@ -30,7 +32,7 @@ public class Ennemi : MonoBehaviour {
 
         isDead = false;
         pathPosition = 0;
-        hp = 100f;
+        hp = maxHp;
         //hpText.text = "HP : " + hp.ToString("N2") + "/100";
         coordinates = hackersManager.coordinates;
         coordinatesCount = coordinates.Count;
@@ -50,6 +52,7 @@ public class Ennemi : MonoBehaviour {
         //hpText.text = "HP : " + hp.ToString("N2") + "/100";
 
         if (!isDead) {
+            HpBar.transform.localScale = new Vector3(hp/maxHp, 0.1f, 0.02f);
             transform.localPosition = movePosition();
             if (transform.localPosition.x == nextTargetPosition.x && transform.localPosition.z == nextTargetPosition.z)
             {
@@ -120,7 +123,7 @@ public class Ennemi : MonoBehaviour {
     {
         if (pathPosition >= coordinatesCount)
         {
-            isDead = true;
+            die();
         }
         else
         {
@@ -134,18 +137,18 @@ public class Ennemi : MonoBehaviour {
         hackersManager.removeEnnemi(this);
         isDead = true;
         //hpText.text = "HP : 0/100";
+        HpBar.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
-        //rigidbody.useGravity = true;
-        //capsuleCollider.enabled = true;
+        rigidbody.useGravity = true;
+        capsuleCollider.enabled = true;
         deathTime = Time.time;
         despawnTime += deathTime;
 
-        Vector3 movement = new Vector3(0.0f, 100f, 100.0f);
+        Vector3 movement = new Vector3(0.0f, 100f, 10.0f);
         Vector3 position = new Vector3(0.1f, 0.0f, 0.0f);
         rigidbody.AddForceAtPosition(position.normalized, movement);
 
-        Vector3 movementUp = new Vector3(0.0f, 20f, 0.0f);
-        rigidbody.AddForce(movementUp);
+        rigidbody.AddRelativeForce(Vector3.forward * 50);
     }
 
     public void takeDamage(float _dmg)
