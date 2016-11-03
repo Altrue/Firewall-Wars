@@ -6,6 +6,7 @@ public class HackersManager : MonoBehaviour {
 
     public TourellesManager tourellesManager;
     public Ennemi ennemiPrefab;
+    public Ennemi ennemiPrefab2;
     public GameObject shrinker;
 
     private float nextActionTime = 0.0f;
@@ -34,7 +35,14 @@ public class HackersManager : MonoBehaviour {
         {
             nextActionTime += period;
             // Instantiate the missile at the position and rotation of this object's transform
-            Ennemi clone = Instantiate(ennemiPrefab);
+            if (UnityEngine.Random.Range(0, 2) > 0)
+            {
+                Ennemi clone = Instantiate(ennemiPrefab);
+            }
+            else
+            {
+                Ennemi clone = Instantiate(ennemiPrefab2);
+            }
         }
     }
 

@@ -6,14 +6,19 @@ public class Ennemi : MonoBehaviour {
 
     private ArrayList coordinates = new ArrayList();
     public int speed;
+    public float maxHp;
     public int rotateSpeed;
     public Text coordinatesCountText;
     public Text coordinatesTargetText;
     public Text coordinatesPosText;
     public Text hpText;
     public Rigidbody rigidbody;
-    public CapsuleCollider capsuleCollider;
+    public Collider collider;
     public GameObject HpBar;
+    public GameObject hideWhenDead1;
+    public GameObject hideWhenDead2;
+    public GameObject hideWhenDead3;
+    public GameObject hideWhenDead4;
 
     private HackersManager hackersManager;
     private int pathPosition;
@@ -21,7 +26,6 @@ public class Ennemi : MonoBehaviour {
     private Vector3 nextTargetPosition;
     public bool isDead;
     private float hp;
-    private float maxHp = 100f;
     private float deathTime = 0.0f;
     private float despawnTime = 2f;
 
@@ -140,15 +144,29 @@ public class Ennemi : MonoBehaviour {
         HpBar.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
         rigidbody.useGravity = true;
-        capsuleCollider.enabled = true;
+        collider.enabled = true;
         deathTime = Time.time;
         despawnTime += deathTime;
+        hideWhenDead1.SetActive(false);
+        hideWhenDead2.SetActive(false);
+        hideWhenDead3.SetActive(false);
+        hideWhenDead4.SetActive(false);
 
         Vector3 movement = new Vector3(0.0f, 100f, 10.0f);
         Vector3 position = new Vector3(0.1f, 0.0f, 0.0f);
         rigidbody.AddForceAtPosition(position.normalized, movement);
 
+        // Inertie de l'objet simulée
         rigidbody.AddRelativeForce(Vector3.forward * 50);
+        // On pousse l'objet sur le côté
+        if (UnityEngine.Random.Range(0, 2) > 0)
+        {
+            rigidbody.AddRelativeForce(Vector3.left * 25);
+        }
+        else
+        {
+            rigidbody.AddRelativeForce(Vector3.right * 25);
+        }
     }
 
     public void takeDamage(float _dmg)
