@@ -81,6 +81,7 @@ public class HackersManager : MonoBehaviour {
             else
             {
                 Ennemi clone = Instantiate(ennemiPrefab2);
+                clone.disableRotation();
             }
         }
     }

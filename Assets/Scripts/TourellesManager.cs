@@ -15,8 +15,8 @@ public class TourellesManager : MonoBehaviour {
         hackersManager = FindObjectOfType<HackersManager>();
         
         addTourelle1(40);
-        addTourelle2(42);
-        addTourelle3(38);
+        addTourelle2(43);
+        addTourelle3(37);
         
         /*Tourelle t2 = Instantiate(tourellePrefab2);
         t2.setPosition(2, 0, 0);

@@ -5,7 +5,7 @@ using System.Collections;
 public class Ennemi : MonoBehaviour {
 
     private ArrayList coordinates = new ArrayList();
-    public int speed;
+    public float speed;
     public float maxHp;
     public int rotateSpeed;
     public Text coordinatesCountText;
@@ -29,6 +29,7 @@ public class Ennemi : MonoBehaviour {
     private float deathTime = 0.0f;
     private float despawnTime = 2f;
     private float timeOffset;
+    private bool rotationDisabled;
 
     // Use this for initialization
     void Start () {
@@ -51,6 +52,11 @@ public class Ennemi : MonoBehaviour {
 
         hackersManager.addEnnemi(this);
     }
+
+    public void disableRotation()
+    {
+        rotationDisabled = true;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -59,7 +65,7 @@ public class Ennemi : MonoBehaviour {
         //hpText.text = "HP : " + hp.ToString("N2") + "/100";
 
         if (!isDead) {
-            HpBar.transform.localScale = new Vector3(hp/maxHp, 0.1f, 0.02f);
+            HpBar.transform.localScale = new Vector3(0.1f, hp / (maxHp * 2), 0.1f);
             transform.localPosition = movePosition();
             if (transform.localPosition.x == nextTargetPosition.x && transform.localPosition.z == nextTargetPosition.z)
             {
@@ -80,15 +86,22 @@ public class Ennemi : MonoBehaviour {
         float x;
         float z;
         float y;
+        float effectiveSpeed = speed;
+
+        if ((transform.localPosition.x != nextTargetPosition.x) && (transform.localPosition.z != nextTargetPosition.z))
+        {
+            effectiveSpeed = speed * 0.7f;
+        }
+
 
         // X Coord
         if (transform.localPosition.x < nextTargetPosition.x)
         {
-            x = System.Math.Min(transform.localPosition.x + speed * Time.deltaTime, nextTargetPosition.x);
+            x = System.Math.Min(transform.localPosition.x + effectiveSpeed * Time.deltaTime, nextTargetPosition.x);
         }
         else if (transform.localPosition.x > nextTargetPosition.x)
         {
-            x = System.Math.Max(transform.localPosition.x - speed * Time.deltaTime, nextTargetPosition.x);
+            x = System.Math.Max(transform.localPosition.x - effectiveSpeed * Time.deltaTime, nextTargetPosition.x);
         }
         else
         {
@@ -98,11 +111,11 @@ public class Ennemi : MonoBehaviour {
         // Z Coord
         if (transform.localPosition.z < nextTargetPosition.z)
         {
-            z = System.Math.Min(transform.localPosition.z + speed * Time.deltaTime, nextTargetPosition.z);
+            z = System.Math.Min(transform.localPosition.z + effectiveSpeed * Time.deltaTime, nextTargetPosition.z);
         }
         else if (transform.localPosition.z > nextTargetPosition.z)
         {
-            z = System.Math.Max(transform.localPosition.z - speed * Time.deltaTime, nextTargetPosition.z);
+            z = System.Math.Max(transform.localPosition.z - effectiveSpeed * Time.deltaTime, nextTargetPosition.z);
         }
         else
         {
@@ -113,7 +126,10 @@ public class Ennemi : MonoBehaviour {
         float time = Time.fixedTime * 3f + timeOffset;
         y = ((float)System.Math.Sin(time) + 1f) * 0.1f + 0.5f;
 
-        setOrientation(x - transform.localPosition.x, z - transform.localPosition.z);
+        if (!rotationDisabled)
+        {
+            setOrientation(x - transform.localPosition.x, z - transform.localPosition.z);
+        }
 
         return new Vector3(x, y, z);
     }
@@ -156,7 +172,7 @@ public class Ennemi : MonoBehaviour {
         hideWhenDead4.SetActive(false);
 
         Vector3 movement = new Vector3(0.0f, 100f, 10.0f);
-        Vector3 position = new Vector3(0.1f, 0.0f, 0.0f);
+        Vector3 position = new Vector3(1f, 0.0f, 0.0f);
         rigidbody.AddForceAtPosition(position.normalized, movement);
 
         // Inertie de l'objet simulée
