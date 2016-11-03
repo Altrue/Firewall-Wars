@@ -28,11 +28,14 @@ public class Ennemi : MonoBehaviour {
     private float hp;
     private float deathTime = 0.0f;
     private float despawnTime = 2f;
+    private float timeOffset;
 
     // Use this for initialization
     void Start () {
         hackersManager = FindObjectOfType<HackersManager>();
         transform.SetParent(hackersManager.gameObject.transform, false); // Luc, je suis ton père
+
+        timeOffset = Random.Range(0f, 100f);
 
         isDead = false;
         pathPosition = 0;
@@ -107,7 +110,7 @@ public class Ennemi : MonoBehaviour {
         }
 
         // Y Coord
-        float time = Time.fixedTime * 3f;
+        float time = Time.fixedTime * 3f + timeOffset;
         y = ((float)System.Math.Sin(time) + 1f) * 0.1f + 0.5f;
 
         setOrientation(x - transform.localPosition.x, z - transform.localPosition.z);

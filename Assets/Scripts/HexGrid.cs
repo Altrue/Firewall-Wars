@@ -5,11 +5,14 @@ public class HexGrid : MonoBehaviour {
 
     public bool showCoordinates;
 
-	public int width = 6;
-	public int height = 6;
+	public int width;
+	public int height;
 
-    public Color defaultColor = new Color(0.2f, 0.2f, 0.2f);
-    public Color touchedColor = new Color(0.4f, 0.4f, 0.4f);
+    public static Color defaultColor = new Color(0.05f, 0.05f, 0.05f);
+    public static Color touchedColor = new Color(0.1f, 0.1f, 0.1f);
+    public static Color turretColor = new Color(0, 0, 0);
+    public static Color startColor = new Color(0.05f, 0.7f, 0.1f);
+    public static Color stopColor = new Color(0.8f, 0.0f, 0.0f);
 
     public HexCell cellPrefab;
 	public Text cellLabelPrefab;
@@ -25,8 +28,8 @@ public class HexGrid : MonoBehaviour {
 
 		cells = new HexCell[height * width];
 
-		for (int z = 0, i = 0; z < height; z++) {
-			for (int x = 0; x < width; x++) {
+		for (int z = -4, i = 0; z < 5; z++) {
+			for (int x = -4; x < 5; x++) {
 				CreateCell(x, z, i++);
 			}
 		}
@@ -42,6 +45,11 @@ public class HexGrid : MonoBehaviour {
 		}
 	}
 
+    public HexCell getCell(int index)
+    {
+        return cells[index];
+    }
+
 	void HandleInput () {
 		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
@@ -53,8 +61,8 @@ public class HexGrid : MonoBehaviour {
 	void TouchCell (Vector3 position) {
 		position = transform.InverseTransformPoint(position);
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-		int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
-		HexCell cell = cells[index];
+        int index = (coordinates.X + coordinates.Z * width + coordinates.Z / 2) + 40;
+        HexCell cell = cells[index];
 		cell.color = touchedColor;
 		hexMesh.Triangulate(cells);
 	}
@@ -75,10 +83,10 @@ public class HexGrid : MonoBehaviour {
         {
             Text label = Instantiate<Text>(cellLabelPrefab);
             label.rectTransform.SetParent(gridCanvas.transform, false);
-            label.rectTransform.anchoredPosition =
-                new Vector2(position.x, position.z);
+            label.rectTransform.anchoredPosition = new Vector2(position.x + 4.5f, position.z - 4.5f);
             //label.text = cell.coordinates.ToStringOnSeparateLines();
-            label.text = cell.transform.localPosition.x.ToString() + "\n" + cell.transform.localPosition.z.ToString();
+            //label.text = cell.transform.localPosition.x.ToString() + "\n" + cell.transform.localPosition.z.ToString();
+            label.text = i.ToString();
         }
-	}
+    }
 }
