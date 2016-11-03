@@ -7,16 +7,14 @@ public class Tourelle : MonoBehaviour {
     LineRenderer line;
     Ennemi closest;
     float distanceClosest;
-    private float attackRange;
-    private float dps;
+    public float attackRange;
+    public float dps;
 
     public Light lightTourelle;
 
     // Use this for initialization
     void Start () {
         line = gameObject.GetComponent<LineRenderer>();
-        attackRange = 1.2f;
-        dps = 25f;
 
         tourellesManager = FindObjectOfType<TourellesManager>();
         transform.SetParent(tourellesManager.gameObject.transform, false); // Luc, je suis ton père
