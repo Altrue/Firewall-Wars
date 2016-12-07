@@ -30,6 +30,7 @@ public class Ennemi : MonoBehaviour {
     private float despawnTime = 2f;
     private float timeOffset;
     private bool rotationDisabled;
+    private float speedMultiplier;
 
     // Use this for initialization
     void Start () {
@@ -41,6 +42,7 @@ public class Ennemi : MonoBehaviour {
         isDead = false;
         pathPosition = 0;
         hp = maxHp;
+        speedMultiplier = 1f;
         //hpText.text = "HP : " + hp.ToString("N2") + "/100";
         coordinates = hackersManager.coordinates;
         coordinatesCount = coordinates.Count;
@@ -79,6 +81,11 @@ public class Ennemi : MonoBehaviour {
                 Destroy(this.gameObject);
             }
         }
+
+        if (speedMultiplier != 1f)
+        {
+            speedMultiplier = 1f;
+        }
     }
 
     Vector3 movePosition()
@@ -86,11 +93,11 @@ public class Ennemi : MonoBehaviour {
         float x;
         float z;
         float y;
-        float effectiveSpeed = speed;
+        float effectiveSpeed = speed * speedMultiplier;
 
         if ((transform.localPosition.x != nextTargetPosition.x) && (transform.localPosition.z != nextTargetPosition.z))
         {
-            effectiveSpeed = speed * 0.7f;
+            effectiveSpeed = speed * 0.7f * speedMultiplier;
         }
 
 
@@ -195,5 +202,10 @@ public class Ennemi : MonoBehaviour {
         {
             die();
         }
+    }
+
+    public void setSpeedMultiplier(float _sm)
+    {
+        speedMultiplier = _sm;
     }
 }

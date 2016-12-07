@@ -9,6 +9,7 @@ public class Tourelle : MonoBehaviour {
     float distanceClosest;
     public float attackRange;
     public float dps;
+    public float targetSpeedMultiplier;
 
     public Light lightTourelle;
 
@@ -47,7 +48,7 @@ public class Tourelle : MonoBehaviour {
             if (distanceClosest < attackRange && !closest.isDead)
             {
                 line.enabled = true;
-                tourellesManager.hackersManager.damageEnnemi(closest, dps * Time.deltaTime);
+                tourellesManager.hackersManager.damageEnnemi(closest, dps * Time.deltaTime, targetSpeedMultiplier);
 
                 var heading = closest.transform.position - lightTourelle.transform.position;
                 Ray ray = new Ray(lightTourelle.transform.position, heading);
@@ -74,7 +75,7 @@ public class Tourelle : MonoBehaviour {
                 if (distanceClosest < attackRange)
                 {
                     line.enabled = true;
-                    tourellesManager.hackersManager.damageEnnemi(closest, dps * Time.deltaTime);
+                    tourellesManager.hackersManager.damageEnnemi(closest, dps * Time.deltaTime, targetSpeedMultiplier);
 
                     var heading = closest.transform.position - lightTourelle.transform.position;
                     Ray ray = new Ray(lightTourelle.transform.position, heading);

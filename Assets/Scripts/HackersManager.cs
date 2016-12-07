@@ -149,8 +149,9 @@ public class HackersManager : MonoBehaviour {
         return closest;
     }
 
-    public void damageEnnemi(Ennemi _ennemi, float _dmg)
+    public void damageEnnemi(Ennemi _ennemi, float _dmg, float _sm)
     {
+        _ennemi.setSpeedMultiplier(_sm);
         _ennemi.takeDamage(_dmg);
     }
 }
