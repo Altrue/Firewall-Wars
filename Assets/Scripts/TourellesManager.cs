@@ -4,6 +4,7 @@ using System.Collections;
 public class TourellesManager : MonoBehaviour {
 
     public HackersManager hackersManager;
+    public Player player;
     public Tourelle tourellePrefab;
     public Tourelle tourellePrefab2;
     public Tourelle tourellePrefab3;

@@ -5,6 +5,7 @@ using System;
 public class HackersManager : MonoBehaviour {
 
     public TourellesManager tourellesManager;
+    public Player player;
     public Ennemi ennemiPrefab;
     public Ennemi ennemiPrefab2;
     public GameObject shrinker;
