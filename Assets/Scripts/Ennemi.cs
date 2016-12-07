@@ -31,6 +31,7 @@ public class Ennemi : MonoBehaviour {
     private float timeOffset;
     private bool rotationDisabled;
     private float speedMultiplier;
+    private bool isPaused;
 
     // Use this for initialization
     void Start () {
@@ -40,6 +41,7 @@ public class Ennemi : MonoBehaviour {
         timeOffset = Random.Range(0f, 100f);
 
         isDead = false;
+        isPaused = false;
         pathPosition = 0;
         hp = maxHp;
         speedMultiplier = 1f;
@@ -65,26 +67,29 @@ public class Ennemi : MonoBehaviour {
         //coordinatesTargetText.text = "Target: " + nextTargetPosition.x.ToString() + ", " + nextTargetPosition.y.ToString() + ", " + nextTargetPosition.z.ToString();
         //coordinatesPosText.text = "POS: " + transform.localPosition.x.ToString() + ", " + transform.localPosition.y.ToString() + ", " + transform.localPosition.z.ToString();
         //hpText.text = "HP : " + hp.ToString("N2") + "/100";
-
-        if (!isDead) {
-            HpBar.transform.localScale = new Vector3(0.1f, hp / (maxHp * 2), 0.1f);
-            transform.localPosition = movePosition();
-            if (transform.localPosition.x == nextTargetPosition.x && transform.localPosition.z == nextTargetPosition.z)
-            {
-                setNextTargetPosition();
-            }
-        }
-        else
+        if (!isPaused)
         {
-            if (Time.time > despawnTime)
+            if (!isDead)
             {
-                Destroy(this.gameObject);
+                HpBar.transform.localScale = new Vector3(0.1f, hp / (maxHp * 2), 0.1f);
+                transform.localPosition = movePosition();
+                if (transform.localPosition.x == nextTargetPosition.x && transform.localPosition.z == nextTargetPosition.z)
+                {
+                    setNextTargetPosition();
+                }
             }
-        }
+            else
+            {
+                if (Time.time > despawnTime)
+                {
+                    Destroy(this.gameObject);
+                }
+            }
 
-        if (speedMultiplier != 1f)
-        {
-            speedMultiplier = 1f;
+            if (speedMultiplier != 1f)
+            {
+                speedMultiplier = 1f;
+            }
         }
     }
 
@@ -207,5 +212,21 @@ public class Ennemi : MonoBehaviour {
     public void setSpeedMultiplier(float _sm)
     {
         speedMultiplier = _sm;
+    }
+
+    public void startPause()
+    {
+        if (!isPaused)
+        {
+            isPaused = true;
+        }
+    }
+
+    public void stopPause()
+    {
+        if (isPaused)
+        {
+            isPaused = false;
+        }
     }
 }

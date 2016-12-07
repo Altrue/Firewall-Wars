@@ -11,6 +11,8 @@ public class TourellesManager : MonoBehaviour {
     public ArrayList tourellesList = new ArrayList();
     public HexGrid hexGrid;
 
+    private bool isPaused;
+
     // Use this for initialization
     void Start () {
         hackersManager = FindObjectOfType<HackersManager>();
@@ -18,7 +20,7 @@ public class TourellesManager : MonoBehaviour {
         addTourelle1(40);
         addTourelle2(43);
         addTourelle3(37);
-        
+        isPaused = false;
         /*Tourelle t2 = Instantiate(tourellePrefab2);
         t2.setPosition(2, 0, 0);
 
@@ -71,5 +73,31 @@ public class TourellesManager : MonoBehaviour {
         t3.setPosition(x, y, z);
         cell.setTurret();
         tourellesList.Add(t3);
+    }
+
+    public void startPause()
+    {
+        if (!isPaused)
+        {
+            isPaused = true;
+
+            foreach (Tourelle _tourelle in tourellesList)
+            {
+                _tourelle.startPause();
+            }
+        }
+    }
+
+    public void stopPause()
+    {
+        if (isPaused)
+        {
+            isPaused = false;
+
+            foreach (Tourelle _tourelle in tourellesList)
+            {
+                _tourelle.stopPause();
+            }
+        }
     }
 }

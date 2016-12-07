@@ -12,7 +12,9 @@ public class HackersManager : MonoBehaviour {
     public HexGrid hexGrid;
 
     private float nextActionTime = 0.0f;
+    private float pausedRemainingPeriod;
     private float period = 1.5f;
+    private bool isPaused;
 
     public ArrayList coordinates = new ArrayList()
     {
@@ -28,7 +30,7 @@ public class HackersManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        isPaused = false;
     }
 
     void Awake()
@@ -71,18 +73,21 @@ public class HackersManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Time.time > nextActionTime)
+        if (!isPaused)
         {
-            nextActionTime += period;
-            // Instantiate the missile at the position and rotation of this object's transform
-            if (UnityEngine.Random.Range(0, 2) > 0)
+            if (Time.time > nextActionTime)
             {
-                Ennemi clone = Instantiate(ennemiPrefab);
-            }
-            else
-            {
-                Ennemi clone = Instantiate(ennemiPrefab2);
-                clone.disableRotation();
+                nextActionTime += period;
+                // Instantiate the missile at the position and rotation of this object's transform
+                if (UnityEngine.Random.Range(0, 2) > 0)
+                {
+                    Ennemi clone = Instantiate(ennemiPrefab);
+                }
+                else
+                {
+                    Ennemi clone = Instantiate(ennemiPrefab2);
+                    clone.disableRotation();
+                }
             }
         }
     }
@@ -153,5 +158,37 @@ public class HackersManager : MonoBehaviour {
     {
         _ennemi.setSpeedMultiplier(_sm);
         _ennemi.takeDamage(_dmg);
+    }
+
+    public void startPause()
+    {
+        if (!isPaused)
+        {
+            // Pour éviter que ça spawn dès que la pause est terminée
+            pausedRemainingPeriod = Time.time - nextActionTime;
+
+            isPaused = true;
+
+            foreach (Ennemi _ennemi in ennemiList)
+            {
+                _ennemi.startPause();
+            }
+        }
+    }
+
+    public void stopPause()
+    {
+        if (isPaused)
+        {
+            // Pour éviter que ça spawn dès que la pause est terminée
+            nextActionTime = Time.time + pausedRemainingPeriod;
+
+            isPaused = false;
+
+            foreach (Ennemi _ennemi in ennemiList)
+            {
+                _ennemi.stopPause();
+            }
+        }
     }
 }

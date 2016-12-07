@@ -10,8 +10,9 @@ public class Tourelle : MonoBehaviour {
     public float attackRange;
     public float dps;
     public float targetSpeedMultiplier;
-
     public Light lightTourelle;
+
+    private bool isPaused;
 
     // Use this for initialization
     void Start () {
@@ -22,15 +23,19 @@ public class Tourelle : MonoBehaviour {
         tourellesManager.addTourelle(this);
 
         line.enabled = false;
+        isPaused = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (tourellesManager.hackersManager.countEnnemis() == 0)
+        if (!isPaused)
         {
-            line.enabled = false;
+            if (tourellesManager.hackersManager.countEnnemis() == 0)
+            {
+                line.enabled = false;
+            }
+            fireOnClosest();
         }
-        fireOnClosest();
 	}
 
     public void setPosition(float _x, float _y, float _z)
@@ -93,5 +98,20 @@ public class Tourelle : MonoBehaviour {
         
     }
 
+    public void startPause()
+    {
+        if (!isPaused)
+        {
+            isPaused = true;
+        }
+    }
+
+    public void stopPause()
+    {
+        if (isPaused)
+        {
+            isPaused = false;
+        }
+    }
 
 }
