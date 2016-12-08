@@ -16,9 +16,15 @@ public class TourellesManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         hackersManager = FindObjectOfType<HackersManager>();
-        
+
+        addTourelleSlot(40);
+        addTourelleSlot(61);
+        addTourelleSlot(37);
+        addTourelleSlot(10);
+        addTourelleSlot(25);
+
         addTourelle1(40);
-        addTourelle2(43);
+        addTourelle2(61);
         addTourelle3(37);
         isPaused = false;
         /*Tourelle t2 = Instantiate(tourellePrefab2);
@@ -38,41 +44,59 @@ public class TourellesManager : MonoBehaviour {
     {
         tourellesList.Add(_t1);
     }
+
+    public void addTourelleSlot(int _index)
+    {
+        HexCell cell = hexGrid.getCell(_index);
+        cell.setTurretSlot();
+    }
     
     public void addTourelle1(int _index)
     {
-        Tourelle t1 = Instantiate(tourellePrefab);
-        HexCell cell = hexGrid.getCell(_index);
-        float x = cell.transform.localPosition.x * 0.08f;
-        float y = 0;
-        float z = cell.transform.localPosition.z * 0.08f;
-        t1.setPosition(x, y, z);
-        cell.setTurret();
-        tourellesList.Add(t1);
+        if (player.getCurrency() >= tourellePrefab.cost)
+        {
+            player.spendCurrency(tourellePrefab.cost);
+            Tourelle t1 = Instantiate(tourellePrefab);
+            HexCell cell = hexGrid.getCell(_index);
+            float x = cell.transform.localPosition.x * 0.08f;
+            float y = 0;
+            float z = cell.transform.localPosition.z * 0.08f;
+            t1.setPosition(x, y, z);
+            cell.setTurret();
+            tourellesList.Add(t1);
+        }
     }
 
     public void addTourelle2(int _index)
     {
-        Tourelle t2 = Instantiate(tourellePrefab2);
-        HexCell cell = hexGrid.getCell(_index);
-        float x = cell.transform.localPosition.x * 0.08f;
-        float y = 0;
-        float z = cell.transform.localPosition.z * 0.08f;
-        t2.setPosition(x, y, z);
-        cell.setTurret();
-        tourellesList.Add(t2);
+        if (player.getCurrency() >= tourellePrefab2.cost)
+        {
+            player.spendCurrency(tourellePrefab2.cost);
+            Tourelle t2 = Instantiate(tourellePrefab2);
+            HexCell cell = hexGrid.getCell(_index);
+            float x = cell.transform.localPosition.x * 0.08f;
+            float y = 0;
+            float z = cell.transform.localPosition.z * 0.08f;
+            t2.setPosition(x, y, z);
+            cell.setTurret();
+            tourellesList.Add(t2);
+        }
     }
 
     public void addTourelle3(int _index)
     {
-        Tourelle t3 = Instantiate(tourellePrefab3);
-        HexCell cell = hexGrid.getCell(_index);
-        float x = cell.transform.localPosition.x * 0.08f;
-        float y = 0;
-        float z = cell.transform.localPosition.z * 0.08f;
-        t3.setPosition(x, y, z);
-        cell.setTurret();
-        tourellesList.Add(t3);
+        if (player.getCurrency() >= tourellePrefab3.cost)
+        {
+            player.spendCurrency(tourellePrefab3.cost);
+            Tourelle t3 = Instantiate(tourellePrefab3);
+            HexCell cell = hexGrid.getCell(_index);
+            float x = cell.transform.localPosition.x * 0.08f;
+            float y = 0;
+            float z = cell.transform.localPosition.z * 0.08f;
+            t3.setPosition(x, y, z);
+            cell.setTurret();
+            tourellesList.Add(t3);
+        }
     }
 
     public void startPause()

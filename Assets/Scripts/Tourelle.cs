@@ -11,6 +11,7 @@ public class Tourelle : MonoBehaviour {
     public float dps;
     public float targetSpeedMultiplier;
     public Light lightTourelle;
+    public int cost;
 
     private bool isPaused;
 

@@ -36,7 +36,7 @@ public class HackersManager : MonoBehaviour {
     {
          // Chemin en spirale
         addStart(64);
-        /*addStep(65);
+        addStep(65);
         addStep(66);
         addStep(67);
         addStep(68);
@@ -66,8 +66,8 @@ public class HackersManager : MonoBehaviour {
         addStep(47);
         addStep(48);
         addStep(49);
-        addStep(50);*/
-        addEnd(51);
+        addStep(50);
+        addEnd(42);
     }
 	
 	// Update is called once per frame

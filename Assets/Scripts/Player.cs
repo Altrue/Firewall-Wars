@@ -35,6 +35,10 @@ public class Player : MonoBehaviour
         {
             gameOver();
         }
+        else
+        {
+
+        }
     }
 
     // Pause the game
@@ -78,9 +82,24 @@ public class Player : MonoBehaviour
         return isGameOver;
     }
 
-    public void TakeDamage(float dmg)
+    public void takeDamage(float dmg)
     {
         hp -= dmg;
+        if (hp < 0)
+        {
+            hp = 0;
+            gameOver();
+        }
+    }
+
+    public float getHP()
+    {
+        return hp;
+    }
+
+    public float getMaxHp()
+    {
+        return maxHp;
     }
 
     public void addCurrency(int newCurrency)

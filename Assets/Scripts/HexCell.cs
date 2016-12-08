@@ -31,9 +31,21 @@ public class HexCell : MonoBehaviour {
         light.transform.localPosition = new Vector3(0, 1, 0);
     }
 
-    public void setTurret()
+    public void setTurretSlot()
     {
         color = HexGrid.turretColor;
-        isFilled = true;
+        isFilled = false;
+    }
+
+    public void setTurret()
+    {
+        if (color == HexGrid.turretColor)
+        {
+            isFilled = true;
+        }
+        else
+        {
+            Debug.Log("ERREUR : Pas d'emplacement à l'endroit où la tourelle souhaite être placée");
+        }
     }
 }

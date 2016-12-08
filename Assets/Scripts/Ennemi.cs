@@ -7,11 +7,9 @@ public class Ennemi : MonoBehaviour {
     private ArrayList coordinates = new ArrayList();
     public float speed;
     public float maxHp;
+    public int value;
     public int rotateSpeed;
-    public Text coordinatesCountText;
-    public Text coordinatesTargetText;
-    public Text coordinatesPosText;
-    public Text hpText;
+    public float damage;
     public Rigidbody rigidbody;
     public Collider collider;
     public GameObject HpBar;
@@ -45,10 +43,8 @@ public class Ennemi : MonoBehaviour {
         pathPosition = 0;
         hp = maxHp;
         speedMultiplier = 1f;
-        //hpText.text = "HP : " + hp.ToString("N2") + "/100";
         coordinates = hackersManager.coordinates;
         coordinatesCount = coordinates.Count;
-        //coordinatesCountText.text = "CoordinatesCount : " + coordinatesCount.ToString();
         transform.localPosition = (Vector3) coordinates[pathPosition]; // Spawn à la première coordonnée
         pathPosition++;
 
@@ -64,9 +60,6 @@ public class Ennemi : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //coordinatesTargetText.text = "Target: " + nextTargetPosition.x.ToString() + ", " + nextTargetPosition.y.ToString() + ", " + nextTargetPosition.z.ToString();
-        //coordinatesPosText.text = "POS: " + transform.localPosition.x.ToString() + ", " + transform.localPosition.y.ToString() + ", " + transform.localPosition.z.ToString();
-        //hpText.text = "HP : " + hp.ToString("N2") + "/100";
         if (!isPaused)
         {
             if (!isDead)
@@ -158,8 +151,8 @@ public class Ennemi : MonoBehaviour {
     {
         if (pathPosition >= coordinatesCount)
         {
-            die();
-            hackersManager.player.gameOver(); // TODO : Là on est en sudden death...
+            die(true);
+            hackersManager.player.takeDamage(damage);
         }
         else
         {
@@ -168,11 +161,18 @@ public class Ennemi : MonoBehaviour {
         }
     }
 
-    private void die()
+    private void die(bool _endReached)
     {
         hackersManager.removeEnnemi(this);
         isDead = true;
-        //hpText.text = "HP : 0/100";
+
+        // No money gained if ennemi died by reaching the core.
+        if (!_endReached)
+        {
+            hackersManager.player.addCurrency(value);
+        }
+        
+
         HpBar.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
         rigidbody.useGravity = true;
@@ -206,7 +206,7 @@ public class Ennemi : MonoBehaviour {
         hp = hp - _dmg;
         if (hp < 0)
         {
-            die();
+            die(false);
         }
     }
 
