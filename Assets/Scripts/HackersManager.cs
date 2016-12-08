@@ -90,14 +90,6 @@ public class HackersManager : MonoBehaviour {
                     Ennemi clone = Instantiate(ennemiPrefab2);
                     clone.disableRotation();
                 }
-
-                /*
-                // Pour tester la pause même si on utilise pas la AR Camera
-                if (UnityEngine.Random.Range(0, 4) > 2)
-                {
-                    player.startPause();
-                }
-                */
             }
         }
     }

@@ -41,8 +41,13 @@ public class CanvasUI : MonoBehaviour {
 
         if (currentHpRatio < 0.3f)
         {
-            bgHpAura.color = new Color32(255,0,0,255);
-            hpBar.color = new Color32(255, 0, 0, 255);
+            float time = Time.fixedTime * 2f;
+            Color colorTempSlow = new Color32(255, 0, 0, 255);
+            Color colorTempFast = new Color32(255, 0, 0, 255);
+            colorTempSlow.a = 1.15f + ((float)System.Math.Sin(time)) * 0.35f;
+            colorTempFast.a = 0.8f + ((float)System.Math.Sin(time * 1.682f)) * 0.3f;
+            bgHpAura.color = colorTempFast;
+            hpBar.color = colorTempSlow;
         }
         else if (currentHpRatio < 0.5f)
         {

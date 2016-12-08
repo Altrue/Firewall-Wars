@@ -169,6 +169,9 @@ public class Ennemi : MonoBehaviour {
     {
         hackersManager.removeEnnemi(this);
         isDead = true;
+
+        // Use this to debug the Tracking Lost.
+        //hackersManager.player.startPause();
         
         // No money gained if ennemi died by reaching the core.
         if (!_endReached)

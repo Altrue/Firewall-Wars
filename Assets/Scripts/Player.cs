@@ -11,12 +11,14 @@ public class Player : MonoBehaviour
     public GameObject CanvasPause;
     public GameObject CanvasUI;
     public GameObject CanvasGameOver;
+    public GameObject shrinker;
     public CanvasUI CanvasUIData;
 
     private int currency;
     private float hp;
     private bool isPaused;
     private bool isGameOver;
+    //private float nextActionTime; // DEBUG!
 
     // Use this for initialization 
     void Start()
@@ -38,8 +40,15 @@ public class Player : MonoBehaviour
         }
         else
         {
-
+            // Nothing to do yet
         }
+
+        // DEBUG !
+        /*
+        if (isPaused && Time.time > nextActionTime)
+        {
+            stopPause();
+        }*/
     }
 
     // Pause the game
@@ -51,7 +60,10 @@ public class Player : MonoBehaviour
             CanvasUI.SetActive(false);
             hackersManager.startPause();
             tourellesManager.startPause();
+            shrinker.SetActive(false);
             isPaused = true;
+
+            //nextActionTime = Time.time + 3f; // DEBUG !
         }
     }
 
@@ -64,13 +76,13 @@ public class Player : MonoBehaviour
             CanvasUI.SetActive(true);
             hackersManager.stopPause();
             tourellesManager.stopPause();
+            shrinker.SetActive(true);
             isPaused = false;
         }
     }
 
     public void gameOver()
     {
-        //TODO: Game over 
         hackersManager.startPause();
         tourellesManager.startPause();
         CanvasUI.SetActive(false);
