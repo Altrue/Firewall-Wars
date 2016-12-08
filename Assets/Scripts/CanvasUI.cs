@@ -74,11 +74,11 @@ public class CanvasUI : MonoBehaviour {
 
         if ((Time.time - lastAnimation < 0.5f))
         {
-            lastY = lastY + 12f;
+            lastY = lastY + 18f;
         }
         else
         {
-            lastY = -55f;
+            lastY = -70f;
         }
         lastAnimation = Time.time;
         AnimatedCurrency newAnimatedCurrency = Instantiate(animatedCurrency);

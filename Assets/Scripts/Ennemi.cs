@@ -17,7 +17,9 @@ public class Ennemi : MonoBehaviour {
     public GameObject hideWhenDead2;
     public GameObject hideWhenDead3;
     public GameObject hideWhenDead4;
+    public ParticleSystem ownDeathParticles;
 
+    private ParticleSystem.EmissionModule ownDeathParticlesEM;
     private HackersManager hackersManager;
     private int pathPosition;
     private int coordinatesCount;
@@ -35,6 +37,9 @@ public class Ennemi : MonoBehaviour {
     void Start () {
         hackersManager = FindObjectOfType<HackersManager>();
         transform.SetParent(hackersManager.gameObject.transform, false); // Luc, je suis ton père
+
+        ownDeathParticlesEM = ownDeathParticles.emission;
+        ownDeathParticlesEM.rate = 0;
 
         timeOffset = Random.Range(0f, 100f);
 
@@ -80,6 +85,7 @@ public class Ennemi : MonoBehaviour {
                 else if (Time.time > (despawnTime - 1.4f))
                 {
                     hackersManager.deathParticlesEM.rate = 0;
+                    ownDeathParticlesEM.rate = 0;
                 }
             }
 
@@ -177,6 +183,9 @@ public class Ennemi : MonoBehaviour {
         if (!_endReached)
         {
             hackersManager.player.addCurrency(value);
+            ownDeathParticles.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            ownDeathParticles.transform.SetParent(hackersManager.player.shrinker.transform);
+            ownDeathParticlesEM.rate = 5000;
         }
         else
         {
