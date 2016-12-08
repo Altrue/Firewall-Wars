@@ -11,8 +11,8 @@ public class CanvasGameOver : MonoBehaviour {
 
     private float animationDuration;
     private float animationDuration2;
-    private Image rectTransformTextGameOver;
-    private Image rectTransformImageGameOver;
+    private Image RTTextGameOver;
+    private Image RTImageGameOver;
     private bool noticedGameOver;
     private float nextActionTime;
     private float nextActionTime2;
@@ -29,15 +29,15 @@ public class CanvasGameOver : MonoBehaviour {
         animationDuration2 = 2f;
         BsodGreenBlue = 1f;
         BsodRed = 1f;
-        rectTransformTextGameOver = textGameOver.GetComponent<Image>();
-        rectTransformImageGameOver = imageGameOver.GetComponent<Image>();
+        RTTextGameOver = textGameOver.GetComponent<Image>();
+        RTImageGameOver = imageGameOver.GetComponent<Image>();
 
         // Set the scaling
         imageGameOver.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
         textGameOver.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
 
         // Set the color (and opacity)
-        rectTransformTextGameOver.color = new Color32(255, 255, 255, 0);
+        RTTextGameOver.color = new Color32(255, 255, 255, 0);
     }
 
     void Update()
@@ -54,9 +54,9 @@ public class CanvasGameOver : MonoBehaviour {
         {
             // After animation
             Color colorTemp = new Color32(0, 0, 0, 255);
-            rectTransformImageGameOver.color = colorTemp;
+            RTImageGameOver.color = colorTemp;
             Color colorTemp2 = new Color32(255, 255, 255, 255);
-            rectTransformTextGameOver.color = colorTemp2;
+            RTTextGameOver.color = colorTemp2;
         }
         else if (player.getGameOver() && (Time.time > nextActionTime2))
         {
@@ -68,7 +68,7 @@ public class CanvasGameOver : MonoBehaviour {
             }
             Color colorBSOD = new Color32(255, 0, 0, 255);
             colorBSOD.r = BsodRed;
-            rectTransformImageGameOver.color = colorBSOD;
+            RTImageGameOver.color = colorBSOD;
         }
         else if (player.getGameOver() && (Time.time > nextActionTime))
         {
@@ -81,7 +81,7 @@ public class CanvasGameOver : MonoBehaviour {
             Color colorBSOD = new Color32(255, 255, 255, 255);
             colorBSOD.g = BsodGreenBlue;
             colorBSOD.b = BsodGreenBlue;
-            rectTransformImageGameOver.color = colorBSOD;
+            RTImageGameOver.color = colorBSOD;
         }
     }
 }

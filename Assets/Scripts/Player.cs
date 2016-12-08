@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public GameObject CanvasPause;
     public GameObject CanvasUI;
     public GameObject CanvasGameOver;
+    public CanvasUI CanvasUIData;
 
     private int currency;
     private float hp;
@@ -105,11 +106,13 @@ public class Player : MonoBehaviour
     public void addCurrency(int newCurrency)
     {
         currency += newCurrency;
+        CanvasUIData.animateCurrencyChange(newCurrency);
     }
 
     public void spendCurrency(int cost)
     {
         currency -= cost;
+        CanvasUIData.animateCurrencyChange(cost);
     }
 
     public int getCurrency()
