@@ -38,18 +38,20 @@ public class HexGrid : MonoBehaviour {
 	void Start () {
 		hexMesh.Triangulate(cells);
 	}
-
+    /*
 	void Update () {
 		if (Input.GetMouseButton(0)) {
 			HandleInput();
 		}
 	}
-
+    */
     public HexCell getCell(int index)
     {
         return cells[index];
     }
-
+    // On a plus besoin de ça vu qu'on génère le chemin tout seul.
+    // Mais s'il faut interragir avec le terrain on peut remttre ce code
+    /*
 	void HandleInput () {
 		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
@@ -66,6 +68,7 @@ public class HexGrid : MonoBehaviour {
 		cell.color = touchedColor;
 		hexMesh.Triangulate(cells);
 	}
+    */
 
 	void CreateCell (int x, int z, int i) {
 		Vector3 position;
@@ -86,7 +89,7 @@ public class HexGrid : MonoBehaviour {
             label.rectTransform.anchoredPosition = new Vector2(position.x + 4.5f, position.z - 4.5f);
             //label.text = cell.coordinates.ToStringOnSeparateLines();
             //label.text = cell.transform.localPosition.x.ToString() + "\n" + cell.transform.localPosition.z.ToString();
-            label.text = i.ToString();
+            //label.text = i.ToString();
         }
     }
 }

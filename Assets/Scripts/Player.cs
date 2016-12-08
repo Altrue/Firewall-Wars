@@ -10,16 +10,20 @@ public class Player : MonoBehaviour
     public TourellesManager tourellesManager;
     public GameObject CanvasPause;
     public GameObject CanvasUI;
+    public GameObject CanvasGameOver;
 
     private int currency;
     private float hp;
     private bool isPaused;
+    private bool isGameOver;
 
     // Use this for initialization 
     void Start()
     {
         isPaused = false;
+        isGameOver = false;
         CanvasPause.SetActive(false);
+        CanvasGameOver.SetActive(false);
         hp = maxHp;
         currency = startCurrency;
     }
@@ -29,7 +33,7 @@ public class Player : MonoBehaviour
     {
         if (hp <= 0)
         {
-            GameOver();
+            gameOver();
         }
     }
 
@@ -59,27 +63,37 @@ public class Player : MonoBehaviour
         }
     }
 
-    void GameOver()
+    public void gameOver()
     {
         //TODO: Game over 
+        hackersManager.startPause();
+        tourellesManager.startPause();
+        CanvasUI.SetActive(false);
+        CanvasGameOver.SetActive(true);
+        isGameOver = true;
     }
 
-    void TakeDamage(float dmg)
+    public bool getGameOver()
+    {
+        return isGameOver;
+    }
+
+    public void TakeDamage(float dmg)
     {
         hp -= dmg;
     }
 
-    void addCurrency(int newCurrency)
+    public void addCurrency(int newCurrency)
     {
         currency += newCurrency;
     }
 
-    void spendCurrency(int cost)
+    public void spendCurrency(int cost)
     {
         currency -= cost;
     }
 
-    int getCurrency()
+    public int getCurrency()
     {
         return currency;
     }

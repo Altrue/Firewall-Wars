@@ -8,12 +8,11 @@ public class HackersManager : MonoBehaviour {
     public Player player;
     public Ennemi ennemiPrefab;
     public Ennemi ennemiPrefab2;
-    public GameObject shrinker;
     public HexGrid hexGrid;
+    public float spawnPeriod = 1.5f;
 
     private float nextActionTime = 0.0f;
     private float pausedRemainingPeriod;
-    private float period = 1.5f;
     private bool isPaused;
 
     public ArrayList coordinates = new ArrayList()
@@ -37,7 +36,7 @@ public class HackersManager : MonoBehaviour {
     {
          // Chemin en spirale
         addStart(64);
-        addStep(65);
+        /*addStep(65);
         addStep(66);
         addStep(67);
         addStep(68);
@@ -67,7 +66,7 @@ public class HackersManager : MonoBehaviour {
         addStep(47);
         addStep(48);
         addStep(49);
-        addStep(50);
+        addStep(50);*/
         addEnd(51);
     }
 	
@@ -77,7 +76,7 @@ public class HackersManager : MonoBehaviour {
         {
             if (Time.time > nextActionTime)
             {
-                nextActionTime += period;
+                nextActionTime += spawnPeriod;
                 // Instantiate the missile at the position and rotation of this object's transform
                 if (UnityEngine.Random.Range(0, 2) > 0)
                 {
@@ -89,12 +88,13 @@ public class HackersManager : MonoBehaviour {
                     clone.disableRotation();
                 }
 
-                
+                /*
                 // Pour tester la pause même si on utilise pas la AR Camera
                 if (UnityEngine.Random.Range(0, 4) > 2)
                 {
                     player.startPause();
                 }
+                */
             }
         }
     }

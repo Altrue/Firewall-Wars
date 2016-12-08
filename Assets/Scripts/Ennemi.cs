@@ -159,6 +159,7 @@ public class Ennemi : MonoBehaviour {
         if (pathPosition >= coordinatesCount)
         {
             die();
+            hackersManager.player.gameOver(); // TODO : Là on est en sudden death...
         }
         else
         {
