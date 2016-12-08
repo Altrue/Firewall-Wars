@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
     public void spendCurrency(int cost)
     {
         currency -= cost;
-        CanvasUIData.animateCurrencyChange(cost);
+        CanvasUIData.animateCurrencyChange(cost * -1);
     }
 
     public int getCurrency()

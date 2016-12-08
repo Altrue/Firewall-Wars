@@ -10,6 +10,8 @@ public class CanvasUI : MonoBehaviour {
     public Player player;
 
     private float maxHp;
+    private float lastAnimation;
+    private float lastY = -55f;
 
 	// Use this for initialization
 	void Awake () {
@@ -33,13 +35,23 @@ public class CanvasUI : MonoBehaviour {
         string prefix = "+";
         if (_value < 0)
         {
-            prefix = "-";
+            prefix = "";
         }
 
         string textChange = prefix + _value + " ¤";
 
+        if ((Time.time - lastAnimation < 0.5f))
+        {
+            lastY = lastY + 12f;
+        }
+        else
+        {
+            lastY = -55f;
+        }
+        lastAnimation = Time.time;
         AnimatedCurrency newAnimatedCurrency = Instantiate(animatedCurrency);
         newAnimatedCurrency.transform.parent = this.gameObject.transform;
+        newAnimatedCurrency.setY(lastY);
         newAnimatedCurrency.setText(textChange);
     }
 }

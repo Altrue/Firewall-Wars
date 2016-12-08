@@ -24,6 +24,7 @@ public class Tourelle : MonoBehaviour {
         tourellesManager.addTourelle(this);
 
         line.enabled = false;
+        lightTourelle.enabled = false;
         isPaused = false;
     }
 	
@@ -34,6 +35,7 @@ public class Tourelle : MonoBehaviour {
             if (tourellesManager.hackersManager.countEnnemis() == 0)
             {
                 line.enabled = false;
+                lightTourelle.enabled = false;
             }
             fireOnClosest();
         }
@@ -54,6 +56,7 @@ public class Tourelle : MonoBehaviour {
             if (distanceClosest < attackRange && !closest.isDead)
             {
                 line.enabled = true;
+                lightTourelle.enabled = true;
                 tourellesManager.hackersManager.damageEnnemi(closest, dps * Time.deltaTime, targetSpeedMultiplier);
 
                 var heading = closest.transform.position - lightTourelle.transform.position;
@@ -66,6 +69,7 @@ public class Tourelle : MonoBehaviour {
             else
             {
                 line.enabled = false;
+                lightTourelle.enabled = false;
                 closest = null;
             }
         }
@@ -81,6 +85,7 @@ public class Tourelle : MonoBehaviour {
                 if (distanceClosest < attackRange)
                 {
                     line.enabled = true;
+                    lightTourelle.enabled = true;
                     tourellesManager.hackersManager.damageEnnemi(closest, dps * Time.deltaTime, targetSpeedMultiplier);
 
                     var heading = closest.transform.position - lightTourelle.transform.position;
@@ -93,6 +98,7 @@ public class Tourelle : MonoBehaviour {
                 else
                 {
                     line.enabled = false;
+                    lightTourelle.enabled = false;
                 }
             }
         }

@@ -25,17 +25,21 @@ public class AnimatedCurrency : MonoBehaviour {
         }
         else
         {
-            y = y - 5 * Time.deltaTime;
+            y = y - 15 * Time.deltaTime;
             rt.anchoredPosition = new Vector3(x, y, 0);
         }
 	}
+
+    public void setY(float _y)
+    {
+        y = _y;
+    }
 
     public void setText(string _text)
     {
         componentText = gameObject.GetComponent<Text>();
         rt = gameObject.GetComponent<RectTransform>();
         x = 0;
-        y = -35f;
         componentText.text = _text;
     }
 }
