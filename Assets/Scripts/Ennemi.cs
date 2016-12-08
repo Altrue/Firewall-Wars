@@ -77,7 +77,7 @@ public class Ennemi : MonoBehaviour {
                 {
                     Destroy(this.gameObject);
                 }
-                else if (Time.time > (despawnTime - 1.75f))
+                else if (Time.time > (despawnTime - 1.4f))
                 {
                     hackersManager.deathParticlesEM.rate = 0;
                 }
