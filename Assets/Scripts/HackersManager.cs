@@ -9,6 +9,8 @@ public class HackersManager : MonoBehaviour {
     public Ennemi ennemiPrefab;
     public Ennemi ennemiPrefab2;
     public HexGrid hexGrid;
+    public ParticleSystem deathParticles;
+    public ParticleSystem.EmissionModule deathParticlesEM;
     public float spawnPeriod = 1.5f;
 
     private float nextActionTime = 0.0f;
@@ -80,7 +82,8 @@ public class HackersManager : MonoBehaviour {
                 // Instantiate the missile at the position and rotation of this object's transform
                 if (UnityEngine.Random.Range(0, 2) > 0)
                 {
-                    Ennemi clone = Instantiate(ennemiPrefab);
+                    //Ennemi clone = Instantiate(ennemiPrefab);
+                    Instantiate(ennemiPrefab);
                 }
                 else
                 {
@@ -126,6 +129,9 @@ public class HackersManager : MonoBehaviour {
         float y = 0;
         float z = cell.transform.localPosition.z * 0.08f;
         coordinates.Add(new Vector3(x, y, z));
+        deathParticles.transform.localPosition = new Vector3(x, y, z);
+        deathParticlesEM = deathParticles.emission;
+        deathParticlesEM.rate = 0;
         cell.setStop();
     }
 

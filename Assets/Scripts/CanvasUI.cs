@@ -6,16 +6,25 @@ public class CanvasUI : MonoBehaviour {
 
     public Text currencyText;
     public AnimatedCurrency animatedCurrency; // For animations
-    public Text hpText; // <- DEBUG
     public Player player;
+    public Image bgHp;
+    public Image bgHpAura;
+    public Image hpBar;
 
     private float maxHp;
     private float lastAnimation;
     private float lastY = -55f;
+    private RectTransform rtHpBar;
+    private float maxHpBarWidth;
+    private float maxHpBarHeight;
 
-	// Use this for initialization
-	void Awake () {
+
+    // Use this for initialization
+    void Awake () {
         maxHp = player.getMaxHp();
+        rtHpBar = hpBar.GetComponent<RectTransform>();
+        maxHpBarWidth = rtHpBar.sizeDelta.x;
+        maxHpBarHeight = rtHpBar.sizeDelta.y;
         updateUI();
 	}
 	
@@ -26,8 +35,26 @@ public class CanvasUI : MonoBehaviour {
 
     void updateUI()
     {
+        float currentHpRatio = player.getHP() / maxHp;
         currencyText.GetComponent<Text>().text = player.getCurrency() + "¤";
-        hpText.text = player.getHP() + " / " + maxHp + " HP";
+        rtHpBar.sizeDelta = new Vector2((currentHpRatio * maxHpBarWidth),maxHpBarHeight);
+
+        if (currentHpRatio < 0.3f)
+        {
+            bgHpAura.color = new Color32(255,0,0,255);
+            hpBar.color = new Color32(255, 0, 0, 255);
+        }
+        else if (currentHpRatio < 0.5f)
+        {
+            bgHpAura.color = new Color32(255, 255, 0, 255);
+            hpBar.color = new Color32(255, 255, 0, 255);
+        }
+        else
+        {
+            Color tempColor = new Color32(60,171,255,255);
+            hpBar.color = new Color32(60, 171, 255, 255);
+            bgHpAura.color = tempColor;
+        }
     }
 
     public void animateCurrencyChange(int _value)
@@ -50,7 +77,7 @@ public class CanvasUI : MonoBehaviour {
         }
         lastAnimation = Time.time;
         AnimatedCurrency newAnimatedCurrency = Instantiate(animatedCurrency);
-        newAnimatedCurrency.transform.parent = this.gameObject.transform;
+        newAnimatedCurrency.transform.SetParent(this.gameObject.transform);
         newAnimatedCurrency.setY(lastY);
         newAnimatedCurrency.setText(textChange);
     }

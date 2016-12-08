@@ -77,6 +77,10 @@ public class Ennemi : MonoBehaviour {
                 {
                     Destroy(this.gameObject);
                 }
+                else if (Time.time > (despawnTime - 1.75f))
+                {
+                    hackersManager.deathParticlesEM.rate = 0;
+                }
             }
 
             if (speedMultiplier != 1f)
@@ -165,11 +169,16 @@ public class Ennemi : MonoBehaviour {
     {
         hackersManager.removeEnnemi(this);
         isDead = true;
-
+        
         // No money gained if ennemi died by reaching the core.
         if (!_endReached)
         {
             hackersManager.player.addCurrency(value);
+        }
+        else
+        {
+            hackersManager.deathParticlesEM.rate = 5000;
+            hackersManager.deathParticles.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
         }
         
 
@@ -181,8 +190,15 @@ public class Ennemi : MonoBehaviour {
         despawnTime += deathTime;
         hideWhenDead1.SetActive(false);
         hideWhenDead2.SetActive(false);
-        hideWhenDead3.SetActive(false);
-        hideWhenDead4.SetActive(false);
+        if (hideWhenDead3)
+        {
+            hideWhenDead3.SetActive(false);
+        }
+        if (hideWhenDead4)
+        {
+            hideWhenDead4.SetActive(false);
+        }
+        
 
         Vector3 movement = new Vector3(0.0f, 100f, 10.0f);
         Vector3 position = new Vector3(1f, 0.0f, 0.0f);

@@ -14,6 +14,7 @@ public class CanvasGameOver : MonoBehaviour {
     private Image RTTextGameOver;
     private Image RTImageGameOver;
     private bool noticedGameOver;
+    private float startActionTime;
     private float nextActionTime;
     private float nextActionTime2;
     private float endActionTime;
@@ -38,6 +39,7 @@ public class CanvasGameOver : MonoBehaviour {
 
         // Set the color (and opacity)
         RTTextGameOver.color = new Color32(255, 255, 255, 0);
+        RTImageGameOver.color = new Color32(255, 255, 255, 0);
     }
 
     void Update()
@@ -45,9 +47,10 @@ public class CanvasGameOver : MonoBehaviour {
         if (player.getGameOver() && !noticedGameOver)
         {
             noticedGameOver = true;
-            nextActionTime = Time.time + delayBeforeAnimation;
-            nextActionTime2 = Time.time + delayBeforeAnimation + animationDuration;
-            endActionTime = Time.time + delayBeforeAnimation + animationDuration2 + animationDuration;
+            startActionTime = Time.time + 1f;
+            nextActionTime = Time.time + delayBeforeAnimation + 1f;
+            nextActionTime2 = Time.time + delayBeforeAnimation + animationDuration + 1f;
+            endActionTime = Time.time + delayBeforeAnimation + animationDuration2 + animationDuration + 1f;
         }
 
         if (player.getGameOver() && (Time.time > endActionTime))
@@ -82,6 +85,10 @@ public class CanvasGameOver : MonoBehaviour {
             colorBSOD.g = BsodGreenBlue;
             colorBSOD.b = BsodGreenBlue;
             RTImageGameOver.color = colorBSOD;
+        }
+        else if (player.getGameOver() && (Time.time > startActionTime))
+        {
+            RTImageGameOver.color = new Color32(255, 255, 255, 255);
         }
     }
 }
