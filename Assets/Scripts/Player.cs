@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public GameObject CanvasPause;
     public GameObject CanvasUI;
     public GameObject CanvasGameOver;
+    public CanvasStart CanvasStart;
     public GameObject shrinker;
     public CanvasUI CanvasUIData;
 
@@ -25,10 +26,15 @@ public class Player : MonoBehaviour
     {
         isPaused = false;
         isGameOver = false;
-        CanvasPause.SetActive(false);
-        CanvasGameOver.SetActive(false);
         hp = maxHp;
         currency = startCurrency;
+
+        CanvasPause.SetActive(false);
+        CanvasUI.SetActive(false);
+        hackersManager.startPause();
+        tourellesManager.startPause();
+        shrinker.SetActive(false);
+        isPaused = true;
     }
 
     // Update is called once per frame 
@@ -62,7 +68,6 @@ public class Player : MonoBehaviour
             tourellesManager.startPause();
             shrinker.SetActive(false);
             isPaused = true;
-
             //nextActionTime = Time.time + 3f; // DEBUG !
         }
     }
@@ -70,7 +75,7 @@ public class Player : MonoBehaviour
     // Resume the game
     public void stopPause()
     {
-        if (isPaused)
+        if (isPaused && CanvasStart.getHasStarted() == true)
         {
             CanvasPause.SetActive(false);
             CanvasUI.SetActive(true);
