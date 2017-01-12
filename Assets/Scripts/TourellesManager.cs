@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TourellesManager : MonoBehaviour {
 
@@ -8,7 +9,8 @@ public class TourellesManager : MonoBehaviour {
     public Tourelle tourellePrefab;
     public Tourelle tourellePrefab2;
     public Tourelle tourellePrefab3;
-    public ArrayList tourellesList = new ArrayList();
+    public List<Tourelle> tourellesList = new List<Tourelle>();
+    public List<HexCell> tourellesSlotList = new List<HexCell>();
     public HexGrid hexGrid;
 
     private bool isPaused;
@@ -27,11 +29,6 @@ public class TourellesManager : MonoBehaviour {
         addTourelle2(61);
         addTourelle3(37);
         isPaused = false;
-        /*Tourelle t2 = Instantiate(tourellePrefab2);
-        t2.setPosition(2, 0, 0);
-
-        Tourelle t3 = Instantiate(tourellePrefab3);
-        t3.setPosition(-2, 0, 0);*/
 
     }
 	
@@ -49,6 +46,7 @@ public class TourellesManager : MonoBehaviour {
     {
         HexCell cell = hexGrid.getCell(_index);
         cell.setTurretSlot();
+        tourellesSlotList.Add(cell);
     }
     
     public void addTourelle1(int _index)
@@ -62,7 +60,7 @@ public class TourellesManager : MonoBehaviour {
             float y = 0;
             float z = cell.transform.localPosition.z * 0.08f;
             t1.setPosition(x, y, z);
-            cell.setTurret();
+            cell.setTurret(1);
             tourellesList.Add(t1);
         }
     }
@@ -78,7 +76,7 @@ public class TourellesManager : MonoBehaviour {
             float y = 0;
             float z = cell.transform.localPosition.z * 0.08f;
             t2.setPosition(x, y, z);
-            cell.setTurret();
+            cell.setTurret(2);
             tourellesList.Add(t2);
         }
     }
@@ -94,7 +92,7 @@ public class TourellesManager : MonoBehaviour {
             float y = 0;
             float z = cell.transform.localPosition.z * 0.08f;
             t3.setPosition(x, y, z);
-            cell.setTurret();
+            cell.setTurret(3);
             tourellesList.Add(t3);
         }
     }

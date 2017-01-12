@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class CanvasUI : MonoBehaviour {
 
@@ -11,12 +12,35 @@ public class CanvasUI : MonoBehaviour {
     public Image bgHpAura;
     public Image hpBar;
 
+    public List<Image> turretButtonList = new List<Image>();
+    public List<Image> turretButtonAuraList = new List<Image>();
+
+    public Image turretButton1;
+    public Image turretButton1Aura;
+
+    public Image turretButton2;
+    public Image turretButton2Aura;
+
+    public Image turretButton3;
+    public Image turretButton3Aura;
+
+    public Image turretButton4;
+    public Image turretButton4Aura;
+
+    public Image turretButton5;
+    public Image turretButton5Aura;
+
     private float maxHp;
     private float lastAnimation;
     private float lastY = -55f;
     private RectTransform rtHpBar;
     private float maxHpBarWidth;
     private float maxHpBarHeight;
+
+    private Color colorButtonInactive = new Color32(100, 100, 100, 255);
+    private Color colorButtonActive1 = new Color32(10, 150, 255, 255);
+    private Color colorButtonActive2 = new Color32(10, 255, 150, 255);
+    private Color colorButtonActive3 = new Color32(255, 255, 50, 255);
 
 
     // Use this for initialization
@@ -25,6 +49,34 @@ public class CanvasUI : MonoBehaviour {
         rtHpBar = hpBar.GetComponent<RectTransform>();
         maxHpBarWidth = rtHpBar.sizeDelta.x;
         maxHpBarHeight = rtHpBar.sizeDelta.y;
+
+        turretButton1.color = colorButtonInactive;
+        turretButton1Aura.color = colorButtonInactive;
+
+        turretButton2.color = colorButtonInactive;
+        turretButton2Aura.color = colorButtonInactive;
+
+        turretButton3.color = colorButtonInactive;
+        turretButton3Aura.color = colorButtonInactive;
+
+        turretButton4.color = colorButtonInactive;
+        turretButton4Aura.color = colorButtonInactive;
+
+        turretButton5.color = colorButtonInactive;
+        turretButton5Aura.color = colorButtonInactive;
+
+        turretButtonList.Add(turretButton1);
+        turretButtonList.Add(turretButton2);
+        turretButtonList.Add(turretButton3);
+        turretButtonList.Add(turretButton4);
+        turretButtonList.Add(turretButton5);
+
+        turretButtonAuraList.Add(turretButton1Aura);
+        turretButtonAuraList.Add(turretButton2Aura);
+        turretButtonAuraList.Add(turretButton3Aura);
+        turretButtonAuraList.Add(turretButton4Aura);
+        turretButtonAuraList.Add(turretButton5Aura);
+
         updateUI();
 	}
 	
@@ -59,6 +111,32 @@ public class CanvasUI : MonoBehaviour {
             Color tempColor = new Color32(60,171,255,255);
             hpBar.color = new Color32(60, 171, 255, 255);
             bgHpAura.color = tempColor;
+        }
+
+        List<HexCell> tourellesSlotList = player.tourellesManager.tourellesSlotList;
+        int counter = 0;
+        foreach (HexCell tourelleSlot in tourellesSlotList)
+        {
+            switch (tourelleSlot.tourelleType)
+            {
+                case 0:
+                turretButtonList[counter].color = colorButtonInactive;
+                turretButtonAuraList[counter].color = colorButtonInactive;
+                break;
+                case 1:
+                turretButtonList[counter].color = colorButtonActive1;
+                turretButtonAuraList[counter].color = colorButtonActive1;
+                break;
+                case 2:
+                turretButtonList[counter].color = colorButtonActive2;
+                turretButtonAuraList[counter].color = colorButtonActive2;
+                break;
+                case 3:
+                turretButtonList[counter].color = colorButtonActive3;
+                turretButtonAuraList[counter].color = colorButtonActive3;
+                break;
+            }
+            counter++;
         }
     }
 
