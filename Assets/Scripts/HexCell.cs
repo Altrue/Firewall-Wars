@@ -7,6 +7,7 @@ public class HexCell : MonoBehaviour {
     public Light lightStart;
     public Light lightEnd;
     public int tourelleType = 0;
+    public Tourelle tourelleInstance;
 
     public void setStep()
     {
@@ -38,12 +39,13 @@ public class HexCell : MonoBehaviour {
         isFilled = false;
     }
 
-    public void setTurret(int tType)
+    public void setTurret(Tourelle tInstance, int tType)
     {
         if (color == HexGrid.turretColor)
         {
             isFilled = true;
             tourelleType = tType;
+            tourelleInstance = tInstance;
         }
         else
         {

@@ -60,7 +60,7 @@ public class TourellesManager : MonoBehaviour {
             float y = 0;
             float z = cell.transform.localPosition.z * 0.08f;
             t1.setPosition(x, y, z);
-            cell.setTurret(1);
+            cell.setTurret(t1, 1);
             tourellesList.Add(t1);
         }
     }
@@ -76,7 +76,7 @@ public class TourellesManager : MonoBehaviour {
             float y = 0;
             float z = cell.transform.localPosition.z * 0.08f;
             t2.setPosition(x, y, z);
-            cell.setTurret(2);
+            cell.setTurret(t2, 2);
             tourellesList.Add(t2);
         }
     }
@@ -92,7 +92,7 @@ public class TourellesManager : MonoBehaviour {
             float y = 0;
             float z = cell.transform.localPosition.z * 0.08f;
             t3.setPosition(x, y, z);
-            cell.setTurret(3);
+            cell.setTurret(t3, 3);
             tourellesList.Add(t3);
         }
     }

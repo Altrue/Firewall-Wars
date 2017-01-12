@@ -51,6 +51,9 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
     private Color colorButtonActive2 = new Color32(10, 255, 150, 255);
     private Color colorButtonActive3 = new Color32(255, 255, 50, 255);
 
+    public Color hexColorSelected = new Color32(255, 255, 100, 255);
+    public Color hexColorNormal = new Color32(0, 0, 0, 255);
+
 
     // Use this for initialization
     void Awake () {
@@ -186,8 +189,8 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
     {
         List<HexCell> tourellesSlotList = player.tourellesManager.tourellesSlotList;
         buildMenuSlot = slotNumber;
-
-        if (tourellesSlotList[slotNumber - 1].tourelleType == 1)
+        player.hackersManager.hexGrid.changeCellColor(tourellesSlotList[slotNumber - 1].coordinates, hexColorSelected);
+        if (tourellesSlotList[slotNumber - 1].tourelleType == 1 || player.getCurrency() < player.tourellesManager.tourellePrefab.cost)
         {
             turretActionBuild1.enabled = false;
         }
@@ -196,7 +199,7 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
             turretActionBuild1.enabled = true;
         }
 
-        if (tourellesSlotList[slotNumber - 1].tourelleType == 2)
+        if (tourellesSlotList[slotNumber - 1].tourelleType == 2 || player.getCurrency() < player.tourellesManager.tourellePrefab2.cost)
         {
             turretActionBuild2.enabled = false;
         }
@@ -205,7 +208,7 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
             turretActionBuild2.enabled = true;
         }
 
-        if (tourellesSlotList[slotNumber - 1].tourelleType == 3)
+        if (tourellesSlotList[slotNumber - 1].tourelleType == 3 || player.getCurrency() < player.tourellesManager.tourellePrefab3.cost)
         {
             turretActionBuild3.enabled = false;
         }
@@ -238,6 +241,9 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
 
     public void closeBuildMenu()
     {
+        List<HexCell> tourellesSlotList = player.tourellesManager.tourellesSlotList;
+        Debug.Log("Color = " + tourellesSlotList[buildMenuSlot - 1].color.ToString());
+        player.hackersManager.hexGrid.changeCellColor(tourellesSlotList[buildMenuSlot - 1].coordinates, hexColorNormal);
         buildMenuSlot = 0;
 
         turretActionBuild1.enabled = false;
@@ -256,6 +262,32 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
         turretButton4Aura.enabled = true;
         turretButton5.enabled = true;
         turretButton5Aura.enabled = true;
+    }
+
+    public void tourelleSell()
+    {
+        List<HexCell> tourellesSlotList = player.tourellesManager.tourellesSlotList;
+        int currencyToAdd = 0;
+        switch (tourellesSlotList[buildMenuSlot - 1].tourelleType)
+        {
+            case 1:
+                currencyToAdd = player.tourellesManager.tourellePrefab.cost;
+                break;
+            case 2:
+                currencyToAdd = player.tourellesManager.tourellePrefab2.cost;
+                break;
+            case 3:
+                currencyToAdd = player.tourellesManager.tourellePrefab3.cost;
+                break;
+            default:
+                Debug.Log("ERROR : Pas de type de tourelle trouvé lors de la tentative de vente");
+                return;
+        }
+        player.addCurrency(currencyToAdd);
+        tourellesSlotList[buildMenuSlot - 1].tourelleType = 0;
+        tourellesSlotList[buildMenuSlot - 1].tourelleInstance.kill();
+        turretButtonList[buildMenuSlot - 1].color = colorButtonInactive;
+        turretButtonAuraList[buildMenuSlot - 1].color = colorButtonInactive;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -290,7 +322,7 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
                 closeBuildMenu();
             break;
             case "turretbtSell":
-                
+                tourelleSell();
                 closeBuildMenu();
             break;
             case "turretbtReturn":

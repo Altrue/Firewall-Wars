@@ -121,4 +121,9 @@ public class Tourelle : MonoBehaviour {
         }
     }
 
+    public void kill()
+    {
+        Destroy(gameObject);
+    }
+
 }
