@@ -172,11 +172,11 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
 
         if ((Time.time - lastAnimation < 0.5f))
         {
-            lastY = lastY + 18f;
+            lastY = lastY + 45f;
         }
         else
         {
-            lastY = -70f;
+            lastY = -180f;
         }
         lastAnimation = Time.time;
         AnimatedCurrency newAnimatedCurrency = Instantiate(animatedCurrency);
