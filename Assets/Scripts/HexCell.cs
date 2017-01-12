@@ -4,6 +4,7 @@ public class HexCell : MonoBehaviour {
     public HexCoordinates coordinates;
     public Color color;
     public bool isFilled;
+    public bool isTourelleSlot = false;
     public Light lightStart;
     public Light lightEnd;
     public int tourelleType = 0;
@@ -37,11 +38,19 @@ public class HexCell : MonoBehaviour {
     {
         color = HexGrid.turretColor;
         isFilled = false;
+        isTourelleSlot = true;
+    }
+
+    public void unsetTurret()
+    {
+        isFilled = false;
+        tourelleType = 0;
+        tourelleInstance = null;
     }
 
     public void setTurret(Tourelle tInstance, int tType)
     {
-        if (color == HexGrid.turretColor)
+        if (isTourelleSlot)
         {
             isFilled = true;
             tourelleType = tType;

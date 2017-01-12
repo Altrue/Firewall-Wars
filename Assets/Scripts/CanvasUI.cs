@@ -51,8 +51,8 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
     private Color colorButtonActive2 = new Color32(10, 255, 150, 255);
     private Color colorButtonActive3 = new Color32(255, 255, 50, 255);
 
-    public Color hexColorSelected = new Color32(255, 255, 100, 255);
-    public Color hexColorNormal = new Color32(0, 0, 0, 255);
+    public Color hexColorSelected = new Color(255, 255, 100);
+    public Color hexColorNormal = new Color(0, 0, 0);
 
 
     // Use this for initialization
@@ -242,7 +242,6 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
     public void closeBuildMenu()
     {
         List<HexCell> tourellesSlotList = player.tourellesManager.tourellesSlotList;
-        Debug.Log("Color = " + tourellesSlotList[buildMenuSlot - 1].color.ToString());
         player.hackersManager.hexGrid.changeCellColor(tourellesSlotList[buildMenuSlot - 1].coordinates, hexColorNormal);
         buildMenuSlot = 0;
 
@@ -283,11 +282,33 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
                 Debug.Log("ERROR : Pas de type de tourelle trouvé lors de la tentative de vente");
                 return;
         }
-        player.addCurrency(currencyToAdd);
-        tourellesSlotList[buildMenuSlot - 1].tourelleType = 0;
-        tourellesSlotList[buildMenuSlot - 1].tourelleInstance.kill();
+        player.addCurrency(currencyToAdd - 5);
+        Tourelle turretAboutToDie = tourellesSlotList[buildMenuSlot - 1].tourelleInstance;
+        tourellesSlotList[buildMenuSlot - 1].unsetTurret();
+        turretAboutToDie.kill();
         turretButtonList[buildMenuSlot - 1].color = colorButtonInactive;
         turretButtonAuraList[buildMenuSlot - 1].color = colorButtonInactive;
+    }
+
+    public void BuildTurret(int turretType)
+    {
+        List<HexCell> tourellesSlotList = player.tourellesManager.tourellesSlotList;
+        switch (turretType)
+        {
+            case 1:
+                player.tourellesManager.addTourelle1(tourellesSlotList[buildMenuSlot - 1]);
+                break;
+            case 2:
+                player.tourellesManager.addTourelle2(tourellesSlotList[buildMenuSlot - 1]);
+                break;
+            case 3:
+                player.tourellesManager.addTourelle3(tourellesSlotList[buildMenuSlot - 1]);
+                break;
+            default:
+                Debug.Log("ERREUR : Type de tourelle non défini pour achat");
+                return;
+        }
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -310,15 +331,24 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
                 displayBuildMenu(5);
             break;
             case "turretbtBuild1":
-                
+                if (player.getCurrency() > player.tourellesManager.tourellePrefab.cost)
+                {
+                    BuildTurret(1);
+                }
                 closeBuildMenu();
             break;
             case "turretbtBuild2":
-                
+                if (player.getCurrency() > player.tourellesManager.tourellePrefab2.cost)
+                {
+                    BuildTurret(2);
+                }
                 closeBuildMenu();
             break;
             case "turretbtBuild3":
-                
+                if (player.getCurrency() > player.tourellesManager.tourellePrefab3.cost)
+                {
+                    BuildTurret(3);
+                }
                 closeBuildMenu();
             break;
             case "turretbtSell":

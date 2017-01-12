@@ -40,6 +40,7 @@ public class TourellesManager : MonoBehaviour {
     public void addTourelle(Tourelle _t1)
     {
         tourellesList.Add(_t1);
+        _t1.SpawnParticles();
     }
 
     public void addTourelleSlot(int _index)
@@ -65,6 +66,21 @@ public class TourellesManager : MonoBehaviour {
         }
     }
 
+    public void addTourelle1(HexCell _cell)
+    {
+        if (player.getCurrency() >= tourellePrefab.cost)
+        {
+            player.spendCurrency(tourellePrefab.cost);
+            Tourelle t1 = Instantiate(tourellePrefab);
+            float x = _cell.transform.localPosition.x * 0.08f;
+            float y = 0;
+            float z = _cell.transform.localPosition.z * 0.08f;
+            t1.setPosition(x, y, z);
+            _cell.setTurret(t1, 1);
+            tourellesList.Add(t1);
+        }
+    }
+
     public void addTourelle2(int _index)
     {
         if (player.getCurrency() >= tourellePrefab2.cost)
@@ -81,6 +97,21 @@ public class TourellesManager : MonoBehaviour {
         }
     }
 
+    public void addTourelle2(HexCell _cell)
+    {
+        if (player.getCurrency() >= tourellePrefab2.cost)
+        {
+            player.spendCurrency(tourellePrefab.cost);
+            Tourelle t2 = Instantiate(tourellePrefab2);
+            float x = _cell.transform.localPosition.x * 0.08f;
+            float y = 0;
+            float z = _cell.transform.localPosition.z * 0.08f;
+            t2.setPosition(x, y, z);
+            _cell.setTurret(t2, 2);
+            tourellesList.Add(t2);
+        }
+    }
+
     public void addTourelle3(int _index)
     {
         if (player.getCurrency() >= tourellePrefab3.cost)
@@ -93,6 +124,21 @@ public class TourellesManager : MonoBehaviour {
             float z = cell.transform.localPosition.z * 0.08f;
             t3.setPosition(x, y, z);
             cell.setTurret(t3, 3);
+            tourellesList.Add(t3);
+        }
+    }
+
+    public void addTourelle3(HexCell _cell)
+    {
+        if (player.getCurrency() >= tourellePrefab3.cost)
+        {
+            player.spendCurrency(tourellePrefab3.cost);
+            Tourelle t3 = Instantiate(tourellePrefab3);
+            float x = _cell.transform.localPosition.x * 0.08f;
+            float y = 0;
+            float z = _cell.transform.localPosition.z * 0.08f;
+            t3.setPosition(x, y, z);
+            _cell.setTurret(t3, 3);
             tourellesList.Add(t3);
         }
     }

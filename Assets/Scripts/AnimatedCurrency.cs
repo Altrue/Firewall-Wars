@@ -40,6 +40,7 @@ public class AnimatedCurrency : MonoBehaviour {
         componentText = gameObject.GetComponent<Text>();
         rt = gameObject.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(200,60);
+        x = 0;
         componentText.text = _text;
         componentText.fontSize = 35;
     }
