@@ -6,7 +6,7 @@ public class HexCell : MonoBehaviour {
     public bool isFilled;
     public Light lightStart;
     public Light lightEnd;
-    public int tourelleType;
+    public int tourelleType = 0;
 
     public void setStep()
     {

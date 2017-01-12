@@ -2,8 +2,10 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using System;
 
-public class CanvasUI : MonoBehaviour {
+public class CanvasUI : MonoBehaviour, IPointerClickHandler {
 
     public Text currencyText;
     public AnimatedCurrency animatedCurrency; // For animations
@@ -42,6 +44,7 @@ public class CanvasUI : MonoBehaviour {
     private RectTransform rtHpBar;
     private float maxHpBarWidth;
     private float maxHpBarHeight;
+    private int buildMenuSlot; // 0 = Build menu not open
 
     private Color colorButtonInactive = new Color32(100, 100, 100, 255);
     private Color colorButtonActive1 = new Color32(10, 150, 255, 255);
@@ -51,37 +54,39 @@ public class CanvasUI : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
-        maxHp = player.getMaxHp();
-        rtHpBar = hpBar.GetComponent<RectTransform>();
-        maxHpBarWidth = rtHpBar.sizeDelta.x;
-        maxHpBarHeight = rtHpBar.sizeDelta.y;
 
-        turretButton1.color = colorButtonInactive;
-        turretButton1Aura.color = colorButtonInactive;
+    buildMenuSlot = 0;
+    maxHp = player.getMaxHp();
+    rtHpBar = hpBar.GetComponent<RectTransform>();
+    maxHpBarWidth = rtHpBar.sizeDelta.x;
+    maxHpBarHeight = rtHpBar.sizeDelta.y;
 
-        turretButton2.color = colorButtonInactive;
-        turretButton2Aura.color = colorButtonInactive;
+    turretButton1.color = colorButtonInactive;
+    turretButton1Aura.color = colorButtonInactive;
 
-        turretButton3.color = colorButtonInactive;
-        turretButton3Aura.color = colorButtonInactive;
+    turretButton2.color = colorButtonInactive;
+    turretButton2Aura.color = colorButtonInactive;
 
-        turretButton4.color = colorButtonInactive;
-        turretButton4Aura.color = colorButtonInactive;
+    turretButton3.color = colorButtonInactive;
+    turretButton3Aura.color = colorButtonInactive;
 
-        turretButton5.color = colorButtonInactive;
-        turretButton5Aura.color = colorButtonInactive;
+    turretButton4.color = colorButtonInactive;
+    turretButton4Aura.color = colorButtonInactive;
 
-        turretButtonList.Add(turretButton1);
-        turretButtonList.Add(turretButton2);
-        turretButtonList.Add(turretButton3);
-        turretButtonList.Add(turretButton4);
-        turretButtonList.Add(turretButton5);
+    turretButton5.color = colorButtonInactive;
+    turretButton5Aura.color = colorButtonInactive;
 
-        turretButtonAuraList.Add(turretButton1Aura);
-        turretButtonAuraList.Add(turretButton2Aura);
-        turretButtonAuraList.Add(turretButton3Aura);
-        turretButtonAuraList.Add(turretButton4Aura);
-        turretButtonAuraList.Add(turretButton5Aura);
+    turretButtonList.Add(turretButton1);
+    turretButtonList.Add(turretButton2);
+    turretButtonList.Add(turretButton3);
+    turretButtonList.Add(turretButton4);
+    turretButtonList.Add(turretButton5);
+
+    turretButtonAuraList.Add(turretButton1Aura);
+    turretButtonAuraList.Add(turretButton2Aura);
+    turretButtonAuraList.Add(turretButton3Aura);
+    turretButtonAuraList.Add(turretButton4Aura);
+    turretButtonAuraList.Add(turretButton5Aura);
 
     turretActionBuild1.enabled = false;
     turretActionBuild2.enabled = false;
@@ -175,5 +180,123 @@ public class CanvasUI : MonoBehaviour {
         newAnimatedCurrency.transform.SetParent(this.gameObject.transform);
         newAnimatedCurrency.setY(lastY);
         newAnimatedCurrency.setText(textChange);
+    }
+
+    public void displayBuildMenu(int slotNumber)
+    {
+        List<HexCell> tourellesSlotList = player.tourellesManager.tourellesSlotList;
+        buildMenuSlot = slotNumber;
+
+        if (tourellesSlotList[slotNumber - 1].tourelleType == 1)
+        {
+            turretActionBuild1.enabled = false;
+        }
+        else
+        {
+            turretActionBuild1.enabled = true;
+        }
+
+        if (tourellesSlotList[slotNumber - 1].tourelleType == 2)
+        {
+            turretActionBuild2.enabled = false;
+        }
+        else
+        {
+            turretActionBuild2.enabled = true;
+        }
+
+        if (tourellesSlotList[slotNumber - 1].tourelleType == 3)
+        {
+            turretActionBuild3.enabled = false;
+        }
+        else
+        {
+            turretActionBuild3.enabled = true;
+        }
+        
+        turretActionReturn.enabled = true;
+        if (tourellesSlotList[slotNumber - 1].tourelleType > 0)
+        {
+            turretActionSell.enabled = true;
+        }
+        else
+        {
+            turretActionSell.enabled = false;
+        }
+
+        turretButton1.enabled = false;
+        turretButton1Aura.enabled = false;
+        turretButton2.enabled = false;
+        turretButton2Aura.enabled = false;
+        turretButton3.enabled = false;
+        turretButton3Aura.enabled = false;
+        turretButton4.enabled = false;
+        turretButton4Aura.enabled = false;
+        turretButton5.enabled = false;
+        turretButton5Aura.enabled = false;
+    }
+
+    public void closeBuildMenu()
+    {
+        buildMenuSlot = 0;
+
+        turretActionBuild1.enabled = false;
+        turretActionBuild2.enabled = false;
+        turretActionBuild3.enabled = false;
+        turretActionReturn.enabled = false;
+        turretActionSell.enabled = false;
+
+        turretButton1.enabled = true;
+        turretButton1Aura.enabled = true;
+        turretButton2.enabled = true;
+        turretButton2Aura.enabled = true;
+        turretButton3.enabled = true;
+        turretButton3Aura.enabled = true;
+        turretButton4.enabled = true;
+        turretButton4Aura.enabled = true;
+        turretButton5.enabled = true;
+        turretButton5Aura.enabled = true;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        switch(eventData.pointerPressRaycast.gameObject.name)
+        {
+            case "turretbt1":
+                displayBuildMenu(1);
+            break;
+            case "turretbt2":
+                displayBuildMenu(2);
+                break;
+            case "turretbt3":
+                displayBuildMenu(3);
+                break;
+            case "turretbt4":
+                displayBuildMenu(4);
+                break;
+            case "turretbt5":
+                displayBuildMenu(5);
+            break;
+            case "turretbtBuild1":
+                
+                closeBuildMenu();
+            break;
+            case "turretbtBuild2":
+                
+                closeBuildMenu();
+            break;
+            case "turretbtBuild3":
+                
+                closeBuildMenu();
+            break;
+            case "turretbtSell":
+                
+                closeBuildMenu();
+            break;
+            case "turretbtReturn":
+                closeBuildMenu();
+            break;
+        }
+        
     }
 }
