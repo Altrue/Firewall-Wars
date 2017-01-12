@@ -30,6 +30,12 @@ public class CanvasUI : MonoBehaviour {
     public Image turretButton5;
     public Image turretButton5Aura;
 
+    public Image turretActionBuild1;
+    public Image turretActionBuild2;
+    public Image turretActionBuild3;
+    public Image turretActionReturn;
+    public Image turretActionSell;
+
     private float maxHp;
     private float lastAnimation;
     private float lastY = -55f;
@@ -76,6 +82,12 @@ public class CanvasUI : MonoBehaviour {
         turretButtonAuraList.Add(turretButton3Aura);
         turretButtonAuraList.Add(turretButton4Aura);
         turretButtonAuraList.Add(turretButton5Aura);
+
+    turretActionBuild1.enabled = false;
+    turretActionBuild2.enabled = false;
+    turretActionBuild3.enabled = false;
+    turretActionReturn.enabled = false;
+    turretActionSell.enabled = false;
 
         updateUI();
 	}
