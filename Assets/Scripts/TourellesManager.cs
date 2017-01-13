@@ -19,15 +19,12 @@ public class TourellesManager : MonoBehaviour {
     void Start () {
         hackersManager = FindObjectOfType<HackersManager>();
 
-        addTourelleSlot(40);
         addTourelleSlot(61);
-        addTourelleSlot(37);
-        addTourelleSlot(10);
         addTourelleSlot(25);
+        addTourelleSlot(10);
+        addTourelleSlot(37);
+        addTourelleSlot(40);
 
-        addTourelle1(40);
-        addTourelle2(61);
-        addTourelle3(37);
         isPaused = false;
 
     }
@@ -40,7 +37,6 @@ public class TourellesManager : MonoBehaviour {
     public void addTourelle(Tourelle _t1)
     {
         tourellesList.Add(_t1);
-        _t1.SpawnParticles();
     }
 
     public void addTourelleSlot(int _index)

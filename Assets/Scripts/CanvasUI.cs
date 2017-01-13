@@ -190,34 +190,7 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
         List<HexCell> tourellesSlotList = player.tourellesManager.tourellesSlotList;
         buildMenuSlot = slotNumber;
         player.hackersManager.hexGrid.changeCellColor(tourellesSlotList[slotNumber - 1].coordinates, hexColorSelected);
-        if (tourellesSlotList[slotNumber - 1].tourelleType == 1 || player.getCurrency() < player.tourellesManager.tourellePrefab.cost)
-        {
-            turretActionBuild1.enabled = false;
-        }
-        else
-        {
-            turretActionBuild1.enabled = true;
-        }
 
-        if (tourellesSlotList[slotNumber - 1].tourelleType == 2 || player.getCurrency() < player.tourellesManager.tourellePrefab2.cost)
-        {
-            turretActionBuild2.enabled = false;
-        }
-        else
-        {
-            turretActionBuild2.enabled = true;
-        }
-
-        if (tourellesSlotList[slotNumber - 1].tourelleType == 3 || player.getCurrency() < player.tourellesManager.tourellePrefab3.cost)
-        {
-            turretActionBuild3.enabled = false;
-        }
-        else
-        {
-            turretActionBuild3.enabled = true;
-        }
-        
-        turretActionReturn.enabled = true;
         if (tourellesSlotList[slotNumber - 1].tourelleType > 0)
         {
             turretActionSell.enabled = true;
@@ -225,7 +198,35 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
         else
         {
             turretActionSell.enabled = false;
+            if (tourellesSlotList[slotNumber - 1].tourelleType == 1 || player.getCurrency() < player.tourellesManager.tourellePrefab.cost)
+            {
+                turretActionBuild1.enabled = false;
+            }
+            else
+            {
+                turretActionBuild1.enabled = true;
+            }
+
+            if (tourellesSlotList[slotNumber - 1].tourelleType == 2 || player.getCurrency() < player.tourellesManager.tourellePrefab2.cost)
+            {
+                turretActionBuild2.enabled = false;
+            }
+            else
+            {
+                turretActionBuild2.enabled = true;
+            }
+
+            if (tourellesSlotList[slotNumber - 1].tourelleType == 3 || player.getCurrency() < player.tourellesManager.tourellePrefab3.cost)
+            {
+                turretActionBuild3.enabled = false;
+            }
+            else
+            {
+                turretActionBuild3.enabled = true;
+            }
         }
+        
+        turretActionReturn.enabled = true;
 
         turretButton1.enabled = false;
         turretButton1Aura.enabled = false;

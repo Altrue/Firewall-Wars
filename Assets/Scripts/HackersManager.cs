@@ -11,7 +11,7 @@ public class HackersManager : MonoBehaviour {
     public HexGrid hexGrid;
     public ParticleSystem deathParticles;
     public ParticleSystem.EmissionModule deathParticlesEM;
-    public float spawnPeriod = 1.5f;
+    public float spawnPeriod = 4.0f;
 
     private float nextActionTime = 0.0f;
     private float pausedRemainingPeriod;
@@ -90,6 +90,7 @@ public class HackersManager : MonoBehaviour {
                     Ennemi clone = Instantiate(ennemiPrefab2);
                     clone.disableRotation();
                 }
+                spawnPeriod = spawnPeriod * 0.99f; 
             }
         }
     }

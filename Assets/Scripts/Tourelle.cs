@@ -12,20 +12,12 @@ public class Tourelle : MonoBehaviour {
     public float targetSpeedMultiplier;
     public Light lightTourelle;
     public int cost;
-    public ParticleSystem ownSpawnSellParticles;
-
-    private ParticleSystem.EmissionModule ownSpawnSellParticlesEM;
-    private float startTime;
-    private float endTime;
-    private bool hasStoppedSpawning;
 
     private bool isPaused;
 
     // Use this for initialization
     void Start () {
         line = gameObject.GetComponent<LineRenderer>();
-
-        hasStoppedSpawning = false;
 
         tourellesManager = FindObjectOfType<TourellesManager>();
         transform.SetParent(tourellesManager.gameObject.transform, false); // Luc, je suis ton père
@@ -34,15 +26,6 @@ public class Tourelle : MonoBehaviour {
         line.enabled = false;
         lightTourelle.enabled = false;
         isPaused = false;
-
-        ownSpawnSellParticlesEM = ownSpawnSellParticles.emission;
-        ownSpawnSellParticlesEM.rate = 0;
-    }
-
-    public void SpawnParticles()
-    {
-        ownSpawnSellParticlesEM.rate = 5000;
-        startTime = Time.time;
     }
 	
 	// Update is called once per frame
@@ -55,16 +38,6 @@ public class Tourelle : MonoBehaviour {
                 lightTourelle.enabled = false;
             }
             fireOnClosest();
-            if (!hasStoppedSpawning && startTime + 0.6f < Time.time)
-            {
-                ownSpawnSellParticlesEM.rate = 0;
-                hasStoppedSpawning = true;
-            }
-            if (endTime + 0.06f < Time.time)
-            {
-                ownSpawnSellParticlesEM.rate = 0;
-                Destroy(gameObject);
-            }
         }
 	}
 
@@ -151,8 +124,7 @@ public class Tourelle : MonoBehaviour {
     public void kill()
     {
         tourellesManager.tourellesList.Remove(this);
-        endTime = Time.time;
-        ownSpawnSellParticlesEM.rate = 5000;
+        Destroy(gameObject);
     }
 
 }
