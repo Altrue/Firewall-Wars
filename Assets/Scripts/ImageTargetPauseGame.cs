@@ -23,12 +23,26 @@ public class ImageTargetPauseGame : MonoBehaviour, ITrackableEventHandler
             newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
             // Do something when target is found
-            player.stopPause();
+            if (player.gameHasStarted)
+            {
+                player.stopPause();
+            }
+            else
+            {
+                player.isReadyToStart = true;
+            }
         }
         else
         {
             // Do something when target is lost
-            player.startPause();
+            if (player.gameHasStarted && !player.isGameOver)
+            {
+                player.startPause();
+            }
+            else if (!player.gameHasStarted)
+            {
+                player.isReadyToStart = false;
+            }
         }
     }
 }

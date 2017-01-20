@@ -11,7 +11,7 @@ public class HackersManager : MonoBehaviour {
     public HexGrid hexGrid;
     public ParticleSystem deathParticles;
     public ParticleSystem.EmissionModule deathParticlesEM;
-    public float spawnPeriod = 4.0f;
+    public float spawnPeriod = 5.0f;
 
     private float nextActionTime = 0.0f;
     private float pausedRemainingPeriod;
@@ -31,7 +31,8 @@ public class HackersManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        isPaused = false;
+        isPaused = true;
+        pausedRemainingPeriod = 0.0f;
     }
 
     void Awake()
@@ -74,7 +75,7 @@ public class HackersManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!isPaused)
+        if (!isPaused && player.gameHasStarted)
         {
             if (Time.time > nextActionTime)
             {
@@ -90,7 +91,7 @@ public class HackersManager : MonoBehaviour {
                     Ennemi clone = Instantiate(ennemiPrefab2);
                     clone.disableRotation();
                 }
-                spawnPeriod = spawnPeriod * 0.99f; 
+                spawnPeriod = spawnPeriod * 0.985f; 
             }
         }
     }

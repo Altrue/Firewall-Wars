@@ -56,7 +56,8 @@ public class CanvasStart : MonoBehaviour
     public void startGame()
     {
         gameHasStarted = true;
-        player.stopPause();
+        player.gameHasStarted = true;
+        player.stopInitialPause();
         RTTextStart.color = new Color32(255, 255, 255, 0);
         RTImageStart.color = new Color32(255, 255, 255, 0);
     }

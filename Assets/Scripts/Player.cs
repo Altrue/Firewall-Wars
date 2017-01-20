@@ -17,8 +17,10 @@ public class Player : MonoBehaviour
 
     private int currency;
     private float hp;
-    private bool isPaused;
-    private bool isGameOver;
+    public bool isPaused;
+    public bool isGameOver;
+    public bool gameHasStarted;
+    public bool isReadyToStart;
     //private float nextActionTime; // DEBUG!
 
     // Use this for initialization 
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour
     {
         isPaused = false;
         isGameOver = false;
+        gameHasStarted = false;
+        isReadyToStart = false;
         hp = maxHp;
         currency = startCurrency;
 
@@ -72,18 +76,31 @@ public class Player : MonoBehaviour
         }
     }
 
+    // star the game
+    public void stopInitialPause()
+    {
+        CanvasUI.SetActive(true);
+        shrinker.SetActive(true);
+        if (isReadyToStart)
+        {
+            CanvasPause.SetActive(false);
+            stopPause();
+        }
+        else
+        {
+            CanvasPause.SetActive(true);
+        }
+    }
+
     // Resume the game
     public void stopPause()
     {
-        if (isPaused && CanvasStart.getHasStarted() == true)
-        {
-            CanvasPause.SetActive(false);
-            CanvasUI.SetActive(true);
-            hackersManager.stopPause();
-            tourellesManager.stopPause();
-            shrinker.SetActive(true);
-            isPaused = false;
-        }
+        CanvasPause.SetActive(false);
+        CanvasUI.SetActive(true);
+        hackersManager.stopPause();
+        tourellesManager.stopPause();
+        shrinker.SetActive(true);
+        isPaused = false;
     }
 
     public void gameOver()

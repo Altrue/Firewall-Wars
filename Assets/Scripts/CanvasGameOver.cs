@@ -6,6 +6,7 @@ public class CanvasGameOver : MonoBehaviour {
 
     public GameObject imageGameOver;
     public GameObject textGameOver;
+    public Text scoreText;
     public Player player;
     public float delayBeforeAnimation;
 
@@ -32,6 +33,7 @@ public class CanvasGameOver : MonoBehaviour {
         BsodRed = 1f;
         RTTextGameOver = textGameOver.GetComponent<Image>();
         RTImageGameOver = imageGameOver.GetComponent<Image>();
+        scoreText.text = "";
 
         // Set the scaling
         imageGameOver.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
@@ -60,6 +62,7 @@ public class CanvasGameOver : MonoBehaviour {
             RTImageGameOver.color = colorTemp;
             Color colorTemp2 = new Color32(255, 255, 255, 255);
             RTTextGameOver.color = colorTemp2;
+            scoreText.text = "Score : " + player.getCurrency() + "¤";
         }
         else if (player.getGameOver() && (Time.time > nextActionTime2))
         {
