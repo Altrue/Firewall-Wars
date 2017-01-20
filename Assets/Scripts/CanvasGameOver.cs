@@ -21,6 +21,7 @@ public class CanvasGameOver : MonoBehaviour {
     private float endActionTime;
     private float BsodGreenBlue;
     private float BsodRed;
+    private bool reachedEndScreen = false;
 
 
     // Use this for initialization
@@ -58,11 +59,20 @@ public class CanvasGameOver : MonoBehaviour {
         if (player.getGameOver() && (Time.time > endActionTime))
         {
             // After animation
-            Color colorTemp = new Color32(0, 0, 0, 255);
-            RTImageGameOver.color = colorTemp;
-            Color colorTemp2 = new Color32(255, 255, 255, 255);
-            RTTextGameOver.color = colorTemp2;
-            scoreText.text = "Score : " + player.getCurrency() + "¤";
+            if (!reachedEndScreen)
+            {
+                reachedEndScreen = true;
+                Color colorTemp = new Color32(0, 0, 0, 255);
+                RTImageGameOver.color = colorTemp;
+                Color colorTemp2 = new Color32(255, 255, 255, 255);
+                RTTextGameOver.color = colorTemp2;
+                scoreText.text = "Score : " + player.getCurrency() + " ¤";
+            }
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Application.Quit();
+            }
         }
         else if (player.getGameOver() && (Time.time > nextActionTime2))
         {

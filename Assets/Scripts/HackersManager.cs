@@ -172,7 +172,7 @@ public class HackersManager : MonoBehaviour {
         if (!isPaused)
         {
             // Pour éviter que ça spawn dès que la pause est terminée
-            pausedRemainingPeriod = Time.time - nextActionTime;
+            pausedRemainingPeriod = nextActionTime - Time.time;
 
             isPaused = true;
 
