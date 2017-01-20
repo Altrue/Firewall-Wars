@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     // Pause the game
     public void startPause()
     {
-        if (!isPaused)
+        if (!isPaused && !isGameOver)
         {
             CanvasPause.SetActive(true);
             CanvasUI.SetActive(false);
@@ -105,11 +105,11 @@ public class Player : MonoBehaviour
 
     public void gameOver()
     {
+        isGameOver = true;
         hackersManager.startPause();
         tourellesManager.startPause();
         CanvasUI.SetActive(false);
         CanvasGameOver.SetActive(true);
-        isGameOver = true;
     }
 
     public bool getGameOver()

@@ -35,7 +35,7 @@ public class ImageTargetPauseGame : MonoBehaviour, ITrackableEventHandler
         else
         {
             // Do something when target is lost
-            if (player.gameHasStarted && !player.isGameOver)
+            if (player.gameHasStarted)
             {
                 player.startPause();
             }
