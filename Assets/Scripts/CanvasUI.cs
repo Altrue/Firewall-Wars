@@ -198,7 +198,7 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
         else
         {
             turretActionSell.enabled = false;
-            if (tourellesSlotList[slotNumber - 1].tourelleType == 1 || player.getCurrency() < player.tourellesManager.tourellePrefab.cost)
+            if (tourellesSlotList[slotNumber - 1].tourelleType == 1 || player.getCurrency() <= player.tourellesManager.tourellePrefab.cost)
             {
                 turretActionBuild1.enabled = false;
             }
@@ -207,7 +207,7 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
                 turretActionBuild1.enabled = true;
             }
 
-            if (tourellesSlotList[slotNumber - 1].tourelleType == 2 || player.getCurrency() < player.tourellesManager.tourellePrefab2.cost)
+            if (tourellesSlotList[slotNumber - 1].tourelleType == 2 || player.getCurrency() <= player.tourellesManager.tourellePrefab2.cost)
             {
                 turretActionBuild2.enabled = false;
             }
@@ -216,7 +216,7 @@ public class CanvasUI : MonoBehaviour, IPointerClickHandler {
                 turretActionBuild2.enabled = true;
             }
 
-            if (tourellesSlotList[slotNumber - 1].tourelleType == 3 || player.getCurrency() < player.tourellesManager.tourellePrefab3.cost)
+            if (tourellesSlotList[slotNumber - 1].tourelleType == 3 || player.getCurrency() <= player.tourellesManager.tourellePrefab3.cost)
             {
                 turretActionBuild3.enabled = false;
             }
